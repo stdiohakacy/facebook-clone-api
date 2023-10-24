@@ -1,7 +1,0 @@
-{
-    "create": "Parking lot created!",
-    "error": {
-        "nameExist": "Name already used",
-        "notFound": "Parking lot not found"
-    }
-}

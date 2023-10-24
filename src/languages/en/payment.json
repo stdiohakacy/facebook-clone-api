@@ -1,7 +1,0 @@
-{
-    "processPayment": "Payment succeed!",
-    "error": {
-        "unknownError": "Payment error!",
-        "invalidMethod": "Payment invalid method!"
-    }
-}

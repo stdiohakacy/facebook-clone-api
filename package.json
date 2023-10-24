@@ -1,7 +1,7 @@
 {
-    "name": "parking-lot-app-api",
+    "name": "facebook-clone-api",
     "version": "5.5.0",
-    "description": "Ack NestJs Boilerplate",
+    "description": "Facebook clone api",
     "repository": {
         "type": "git",
         "url": "https://github.com/andrechristikan/parking-lot-app-api.git"
@@ -38,13 +38,7 @@
         "spell:test": "cspell lint --config cspell.json test/**/*.ts --color --gitignore --no-must-find-files --no-summary --no-progress || true",
         "migration:generate": "yarn run typeorm migration:generate -d ormconfig",
         "migration:create": "yarn run typeorm migration:create -d ormconfig",
-        "migration:run": "yarn run typeorm migration:run -d ormconfig",
-        "seed:parkingLot": "nestjs-command seed:parkingLot",
-        "seed:parkingSpot": "nestjs-command seed:parkingSpot",
-        "rollback:parkingLot": "nestjs-command remove:parkingLot",
-        "rollback:parkingSpot": "nestjs-command remove:parkingSpot",
-        "seed": "yarn seed:parkingLot && yarn seed:parkingSpot",
-        "rollback": "yarn rollback:parkingSpot && yarn seed:parkingLot"
+        "migration:run": "yarn run typeorm migration:run -d ormconfig"
     },
     "dependencies": {
         "@aws-sdk/client-s3": "^3.423.0",
