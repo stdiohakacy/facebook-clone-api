@@ -2,6 +2,7 @@ import {
     Body,
     Controller,
     Delete,
+    Get,
     HttpCode,
     HttpStatus,
     Param,
@@ -23,6 +24,7 @@ import { PostCreateDTO } from '../dtos/post.create.dto';
 import {
     PostAuthCreateDoc,
     PostAuthDeleteDoc,
+    PostAuthGetDoc,
     PostAuthUpdateDoc,
 } from '../docs/post.auth.doc';
 import { PostUpdateDTO } from '../dtos/post.update.dto';
@@ -43,6 +45,14 @@ export class PostAuthController {
     ): Promise<IResponse> {
         dto.userId = user.id;
         return await this.postService.create(dto);
+    }
+
+    @PostAuthGetDoc()
+    @UserProtected()
+    @AuthJwtAccessProtected()
+    @Get('/:id')
+    async get(@Param('id') id: string): Promise<IResponse> {
+        return await this.postService.getById(id);
     }
 
     @PostAuthUpdateDoc()

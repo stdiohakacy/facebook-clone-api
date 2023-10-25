@@ -16,6 +16,18 @@ export class PostService {
         private readonly userService: UserService
     ) {}
 
+    async getById(id: string) {
+        const post = await this.postRepo.findOne({ where: { id } });
+        if (!post) {
+            throw new NotFoundException({
+                statusCode: ENUM_POST_STATUS_CODE_ERROR.POST_NOT_FOUND_ERROR,
+                message: 'post.error.notFound',
+            });
+        }
+
+        return instanceToPlain({ data: post });
+    }
+
     async create(dto: PostCreateDTO) {
         await this.userService.getById(dto.userId);
         const postCreated = await this.postRepo.save(this.postRepo.create(dto));
