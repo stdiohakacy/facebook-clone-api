@@ -1,11 +1,13 @@
-R1: The parking lot should have the capacity to park 40,000 vehicles.
-R2: The four different types of parking spots are handicapped, compact, large, and motorcycle.
-R3: The parking lot should have multiple entrance and exit points.
-R4: Four types of vehicles should be allowed to park in the parking lot, which are as follows: Car, Truck, Van, Motorcycle
-R5: The parking lot should have a display board that shows free parking spots for each parking spot type.
-R6: The system should not allow more vehicles in the parking lot if the maximum capacity (40,000) is reached.
-R7: If the parking lot is completely occupied, the system should show a message on the entrance and on the parking lot display board.
-R8: Customers should be able to collect a parking ticket from the entrance and pay at the exit.
-R9: The customer can pay for the ticket either with an automated exit panel or pay the parking agent at the exit.
-R10: The payment should be calculated at an hourly rate.
-R11: Payment can be made using either a credit/debit card or cash.
+Problem definition
+Facebook is a social media platform for users to connect with people and engage with different types of media and content. Users can connect with other users by sending friend requests or using the direct messaging feature. Each user has a profile where they can create posts to share with their friends. Facebook also allows its users to create pages regarding a topic of interest and groups to form a community of similar people. Facebook generates a personalized feed for its users based on their friends, liked pages, groups, and the content they engage with to ensure the best experience.
+
+R1: Users should be able to set the privacy of their profile page. They should also be able to create their profile page and add information such as work experience, education, and place of living.
+R2: Users of our system should be able to search for groups, pages, and other users.
+R3: Users should be able to write a new post and set its privacy.
+R4: Users should be able to send as well as respond to the friend requests of other users. Users should also be able to unfriend or block other users.
+R5: Users should be able to follow other users without adding them to their friend list.
+R6: Users should be able to like, share, and comment on a post. They should also be able to like or comment on an existing comment.
+R7: The system should send the user a notification whenever there has been an interaction with them, such as receiving a message, a friend request, or a comment on their post.
+R8: A user should be able to send messages and receive messages from other users.
+R9: Users should be able to follow existing pages and join existing groups. They should also be able to unfollow or leave joined groups or followed pages.
+R10: Users should be able to create their own groups and pages. Users can later set privacy or delete the groups or pages they own.

@@ -8,16 +8,24 @@ import { UserPayloadSerialization } from '../serializations/user.payload.seriali
 import { plainToInstance } from 'class-transformer';
 import { BaseEntity, IBaseEntity } from '../../../core/base/entity/base.entity';
 import { UseDTO } from '../../../core/base/decorator/use-dto.decorator';
-import { IAuthPassword } from 'src/core/auth/interfaces/auth.interface';
+import { IAuthPassword } from '../../../core/auth/interfaces/auth.interface';
+import { PostEntity } from '../../../modules/post/entities/post.entity';
+import { CommentEntity } from '../../../modules/comment/entities/comment.entity';
+import { FriendshipEntity } from '../../../modules/friendship/entities/friendship.entity';
+import { GroupMembershipEntity } from '../../../modules/group/entities/group-membership.entity';
+import { MessageEntity } from '../../../modules/message/entities/message.entity';
+import { NotificationEntity } from '../../../modules/notifications/entities/notification.entity';
+import { PageFollowEntity } from '../../../modules/page-follow/entities/page-follow.entity';
 
 export interface IUserEntity extends IBaseEntity<UserDTO> {
     username: string;
     password: IAuthPassword;
     status: ENUM_USER_STATUS;
+    email: string;
     name: string;
     address: string;
-    email: string;
     phone: string;
+    type: ENUM_USER_TYPE;
 }
 
 @Entity({ name: 'users' })
@@ -39,7 +47,7 @@ export class UserEntity extends BaseEntity<UserDTO> implements IUserEntity {
     @Column({
         name: 'type',
         enum: ENUM_USER_TYPE,
-        default: ENUM_USER_TYPE.PARKING_AGENT,
+        default: ENUM_USER_TYPE.USER,
     })
     type: ENUM_USER_TYPE;
 
@@ -67,10 +75,40 @@ export class UserEntity extends BaseEntity<UserDTO> implements IUserEntity {
     @Column('timestamptz', { name: 'activatedAt', nullable: true })
     activatedAt?: Date;
 
+    @OneToMany(() => PostEntity, (posts) => posts.user)
+    posts?: PostEntity[];
+
+    @OneToMany(() => CommentEntity, (comments) => comments.user)
+    comments?: CommentEntity[];
+
+    @OneToMany(() => FriendshipEntity, (friendships) => friendships.fromUser)
+    f_friendships?: FriendshipEntity[];
+
+    @OneToMany(() => FriendshipEntity, (friendships) => friendships.toUser)
+    t_friendships?: FriendshipEntity[];
+
+    @OneToMany(
+        () => GroupMembershipEntity,
+        (groupMemberships) => groupMemberships.user
+    )
+    groupMemberships?: GroupMembershipEntity[];
+
+    @OneToMany(() => MessageEntity, (messages) => messages.sender)
+    f_messages?: MessageEntity[];
+
+    @OneToMany(() => MessageEntity, (messages) => messages.receiver)
+    t_messages?: MessageEntity[];
+
+    @OneToMany(() => NotificationEntity, (notifications) => notifications.user)
+    notifications?: NotificationEntity[];
+
+    @OneToMany(() => PageFollowEntity, (pageFollows) => pageFollows.user)
+    pageFollows?: NotificationEntity[];
+
     register(payload: any) {
         this.username = payload?.username || '';
         this.password = payload?.password || '';
-        this.type = payload?.type || ENUM_USER_TYPE.PARKING_AGENT;
+        this.type = payload?.type || ENUM_USER_TYPE.USER;
         this.name = payload?.name || '';
         this.address = payload?.address || '';
         this.email = payload?.email || '';

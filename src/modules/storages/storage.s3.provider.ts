@@ -33,7 +33,7 @@ export class S3StorageProvider implements IStorage {
         options?: IAwsS3PutItemOptions
     ) {
         let path: string = options?.path;
-        // const acl: string = options?.acl ? options.acl : 'public-read';
+        const acl: string = options?.acl ? options.acl : 'public-read';
 
         if (path)
             path = path.startsWith('/') ? path.replace('/', '') : `${path}`;
@@ -49,7 +49,7 @@ export class S3StorageProvider implements IStorage {
                 Bucket: this.bucket,
                 Key: key,
                 Body: file,
-                // ACL: acl,
+                ACL: acl,
             })
             .promise();
 

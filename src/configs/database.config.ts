@@ -5,7 +5,7 @@ export default registerAs(
     (): Record<string, any> => ({
         host: process.env?.DATABASE_HOST ?? '127.0.0.1',
         port: process.env?.DATABASE_PORT ?? 5432,
-        name: process.env?.DATABASE_NAME ?? 'parking-lot-db',
+        name: process.env?.DATABASE_NAME ?? 'facebook-clone-db',
         username: process.env?.DATABASE_USER,
         password: process?.env.DATABASE_PASSWORD,
         debug: process.env.DATABASE_DEBUG === 'true',

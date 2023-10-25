@@ -12,12 +12,10 @@ import {
     ValidateIf,
 } from 'class-validator';
 import { BaseDTO } from '../../../core/base/dto/base.dto';
-import { IsPasswordStrong } from '../../../core/request/validations/request.is-password-strong.validation';
 import {
     ENUM_USER_STATUS,
     ENUM_USER_TYPE,
 } from '../constants/user.enum.constant';
-import { MobileNumberAllowed } from '../../../core/request/validations/request.mobile-number-allowed.validation';
 
 export class UserDTO extends BaseDTO {
     @ApiProperty({
@@ -42,7 +40,6 @@ export class UserDTO extends BaseDTO {
         required: true,
     })
     @IsNotEmpty()
-    // @IsPasswordStrong()
     @MaxLength(50)
     password: string;
 
@@ -55,6 +52,18 @@ export class UserDTO extends BaseDTO {
     @IsString()
     @IsNotEmpty()
     status: ENUM_USER_STATUS;
+
+    @ApiProperty({
+        name: 'email',
+        description: faker.internet.email(),
+        example: faker.internet.email(),
+        required: true,
+    })
+    @IsEmail()
+    @IsNotEmpty()
+    @MaxLength(100)
+    @Type(() => String)
+    email: string;
 
     @ApiProperty({
         name: 'name',
@@ -79,18 +88,6 @@ export class UserDTO extends BaseDTO {
     address: string;
 
     @ApiProperty({
-        name: 'email',
-        description: faker.internet.email(),
-        example: faker.internet.email(),
-        required: true,
-    })
-    @IsEmail()
-    @IsNotEmpty()
-    @MaxLength(100)
-    @Type(() => String)
-    email: string;
-
-    @ApiProperty({
         name: 'phone',
         description: 'phone number',
         example: faker.phone.number(),
@@ -98,17 +95,14 @@ export class UserDTO extends BaseDTO {
     })
     @IsString()
     @IsOptional()
-    // @MinLength(10)
-    // @MaxLength(14)
     @ValidateIf((e) => e.mobileNumber !== '')
     @Type(() => String)
-    // @MobileNumberAllowed()
     phone: string;
 
     @ApiProperty({
         name: 'type',
         description: 'user type',
-        example: ENUM_USER_TYPE.PARKING_AGENT,
+        example: ENUM_USER_TYPE.USER,
         required: true,
     })
     @IsEnum(ENUM_USER_TYPE)

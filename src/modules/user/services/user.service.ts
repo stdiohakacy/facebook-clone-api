@@ -359,7 +359,7 @@ export class UserService {
         const uploadResponse = await storageProvider.uploadFile(
             `${path.filename}.${mime}`,
             content,
-            { path: `${path.path}/f4088da9-f341-442d-b2ec-d7fa42724cf1` }
+            { path: `${path.path}/${userAuth.id}` }
         );
 
         if (!uploadResponse) {

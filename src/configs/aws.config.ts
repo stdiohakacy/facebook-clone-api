@@ -9,7 +9,7 @@ export default registerAs(
             region: process.env.AWS_REGION || 'ap-southeast-1',
         },
         s3: {
-            bucket: process.env.AWS_S3_BUCKET ?? 'parking-lot-app-s3',
+            bucket: process.env.AWS_S3_BUCKET ?? 'facebook-clone-app-s3',
             region: process.env.AWS_S3_REGION || 'ap-southeast-1',
             baseUrl: `https://${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_S3_REGION}.amazonaws.com`,
         },

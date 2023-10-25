@@ -69,7 +69,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 
                 DATABASE_HOST: Joi.string().default('127.0.0.1').required(),
                 DATABASE_NAME: Joi.string()
-                    .default('parking-lot-db')
+                    .default('facebook-clone-db')
                     .required(),
                 DATABASE_USER: Joi.string().allow(null, 'postgres').optional(),
                 DATABASE_PASSWORD: Joi.string()

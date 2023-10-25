@@ -31,7 +31,6 @@ import {
 import { UserEntity } from '../entities/user.entity';
 import { IResponse } from 'src/core/response/interfaces/response.interface';
 import { UserRefreshSerialization } from '../serializations/user.refresh.serialization';
-import { AuthService } from 'src/core/auth/services/auth.service';
 import { UserChangePasswordDTO } from '../dtos/user.change-password.dto';
 import { UploadFileSingle } from 'src/core/file/decorators/file.decorator';
 import { FileRequiredPipe } from 'src/core/file/pipes/file.required.pipe';
@@ -42,10 +41,7 @@ import { IFile } from 'src/core/file/interfaces/file.interface';
 @ApiTags('modules.auth.user')
 @Controller({ version: '1', path: '/user' })
 export class UserAuthController {
-    constructor(
-        private readonly userService: UserService,
-        private readonly authService: AuthService
-    ) {}
+    constructor(private readonly userService: UserService) {}
 
     @UserAuthProfileDoc()
     @Response('user.profile', { serialization: UserProfileSerialization })
