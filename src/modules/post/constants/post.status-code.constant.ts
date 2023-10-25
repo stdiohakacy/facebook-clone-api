@@ -1,0 +1,3 @@
+export enum ENUM_POST_STATUS_CODE_ERROR {
+    POST_NOT_FOUND_ERROR = 4000,
+}

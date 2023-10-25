@@ -11,10 +11,7 @@ import {
     ENUM_USER_STATUS_CODE_SUCCESS,
 } from '../constants/user.status-code.constant';
 import { UserEntity } from '../entities/user.entity';
-import {
-    ENUM_USER_STATUS,
-    ENUM_USER_TYPE,
-} from '../constants/user.enum.constant';
+import { ENUM_USER_STATUS } from '../constants/user.enum.constant';
 import { UserRegisterDTO } from '../dtos/user.register.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';

@@ -5,10 +5,22 @@ import { FriendshipAuthController } from '../../modules/friendship/controllers/f
 import { FriendshipModule } from '../../modules/friendship/friendship.module';
 import { UserAuthController } from '../../modules/user/controllers/user.auth.controller';
 import { UserModule } from '../../modules/user/user.module';
+import { PostModule } from 'src/modules/post/post.module';
+import { PostAuthController } from 'src/modules/post/controllers/post.auth.controller';
 
 @Module({
-    imports: [AuthCoreModule, AwsModule, UserModule, FriendshipModule],
-    controllers: [UserAuthController, FriendshipAuthController],
+    imports: [
+        AuthCoreModule,
+        AwsModule,
+        UserModule,
+        FriendshipModule,
+        PostModule,
+    ],
+    controllers: [
+        UserAuthController,
+        FriendshipAuthController,
+        PostAuthController,
+    ],
     providers: [],
     exports: [],
 })
