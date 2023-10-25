@@ -344,7 +344,7 @@ export class Controller {
             TEST_DEFAULT_AVAILABLE_SEARCH,
             TEST_DEFAULT_AVAILABLE_ORDER_BY
         )
-        { _search, _limit, _offset, _order }: PaginationListDto, // <---- here,
+        { _search, _limit, _offset, _order }: PaginationListDTO, // <---- here,
     ): Promise<void> {
         return;
     }
@@ -381,7 +381,7 @@ export class Controller {
             TEST_DEFAULT_AVAILABLE_SEARCH,
             TEST_DEFAULT_AVAILABLE_ORDER_BY
         )
-        { _search, _limit, _offset, _order }: PaginationListDto, // <---- get PaginationQuery,
+        { _search, _limit, _offset, _order }: PaginationListDTO, // <---- get PaginationQuery,
         @PaginationQueryFilterInBoolean('test', TEST_DEFAULT_BOOLEAN)
         testBoolean: Record<string, any>,
     ): Promise<IResponse> {
@@ -601,7 +601,7 @@ export class Controller {
             TEST_DEFAULT_AVAILABLE_SEARCH,
             TEST_DEFAULT_AVAILABLE_ORDER_BY
         )
-        { _search, _limit, _offset, _order }: PaginationListDto, // <---- get PaginationQuery
+        { _search, _limit, _offset, _order }: PaginationListDTO, // <---- get PaginationQuery
     ): Promise<IResponsePaging> { // <---- must return a response
         const find: Record<string, any> = {
             ..._search,

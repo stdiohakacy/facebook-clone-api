@@ -1,8 +1,8 @@
-import { ApiHideProperty } from '@nestjs/swagger';
+import { ApiHideProperty, OmitType, PickType } from '@nestjs/swagger';
 import { ENUM_PAGINATION_ORDER_DIRECTION_TYPE } from 'src/core/pagination/constants/pagination.enum.constant';
 import { IPaginationOrder } from 'src/core/pagination/interfaces/pagination.interface';
 
-export class PaginationListDto {
+export class PaginationListDTO {
     @ApiHideProperty()
     _search: Record<string, any>;
 
@@ -21,3 +21,8 @@ export class PaginationListDto {
     @ApiHideProperty()
     _availableOrderDirection: ENUM_PAGINATION_ORDER_DIRECTION_TYPE[];
 }
+
+export class PaginationOmitListDTO extends OmitType(PaginationListDTO, [
+    '_availableOrderBy',
+    '_availableOrderDirection',
+] as const) {}

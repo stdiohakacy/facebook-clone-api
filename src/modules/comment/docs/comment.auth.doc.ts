@@ -1,4 +1,5 @@
 import { applyDecorators } from '@nestjs/common';
+import { functionsIn } from 'lodash';
 import { ENUM_DOC_REQUEST_BODY_TYPE } from 'src/core/doc/constants/doc.enum.constant';
 import {
     Doc,
@@ -6,6 +7,7 @@ import {
     DocRequest,
     DocResponse,
 } from 'src/core/doc/decorators/doc.decorator';
+import { CommentDocParamsId } from '../constants/comment.doc.constant';
 
 export function CommentAuthCreateDoc(): MethodDecorator {
     return applyDecorators(
@@ -22,5 +24,15 @@ export function CommentAuthUpdateDoc(): MethodDecorator {
         DocAuth({ jwtAccessToken: true }),
         DocRequest({ bodyType: ENUM_DOC_REQUEST_BODY_TYPE.JSON }),
         DocResponse('comment.update')
+    );
+}
+
+export function CommentAuthDeleteDoc(): MethodDecorator {
+    return applyDecorators(
+        Doc({ operation: 'modules.auth.comment' }),
+        DocRequest({ params: CommentDocParamsId }),
+        DocAuth({ jwtAccessToken: true }),
+        // DocGuard({ role: true, policy: true }),
+        DocResponse('comment.delete')
     );
 }

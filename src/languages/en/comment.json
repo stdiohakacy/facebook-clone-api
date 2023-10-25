@@ -1,6 +1,7 @@
 {
     "create": "Comment created!",
     "update": "Comment updated!",
+    "list": "List comments",
     "error": {
         "notFound": "Comment not found!"
     }
