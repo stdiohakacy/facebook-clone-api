@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
-import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
-import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
+import { Exclude, Type } from 'class-transformer';
+import { IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
 import { BaseDTO } from '../../../core/base/dto/base.dto';
 
 export class CommentDTO extends BaseDTO {
@@ -17,39 +17,23 @@ export class CommentDTO extends BaseDTO {
     @Type(() => String)
     content: string;
 
-    @ApiProperty({
-        name: 'userId',
-        description: 'User id of post',
-        example: faker.string.uuid(),
-        required: true,
-        nullable: false,
-    })
-    @IsUUID()
-    @IsNotEmpty()
-    @Type(() => String)
+    @ApiHideProperty()
+    @Exclude()
     userId: string;
 
-    @ApiProperty({
-        name: 'postId',
-        description: 'Post id of post',
-        example: faker.string.uuid(),
-        required: true,
-        nullable: false,
-    })
-    @IsUUID()
-    @IsNotEmpty()
-    @Type(() => String)
+    @ApiHideProperty()
+    @Exclude()
     postId: string;
 
     @ApiProperty({
         name: 'parentCommentId',
         description: 'Parent comment id of comment',
         example: faker.string.uuid(),
-        required: true,
-        nullable: false,
+        required: false,
+        nullable: true,
     })
     @IsUUID()
-    @IsNotEmpty()
+    @IsOptional()
     @Type(() => String)
-    parentCommentId: string;
+    parentCommentId?: string;
 }

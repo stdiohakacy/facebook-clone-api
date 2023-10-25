@@ -7,6 +7,8 @@ import { UserAuthController } from '../../modules/user/controllers/user.auth.con
 import { UserModule } from '../../modules/user/user.module';
 import { PostModule } from 'src/modules/post/post.module';
 import { PostAuthController } from 'src/modules/post/controllers/post.auth.controller';
+import { CommentModule } from 'src/modules/comment/comment.module';
+import { CommentAuthController } from 'src/modules/comment/controllers/comment.auth.controller';
 
 @Module({
     imports: [
@@ -15,11 +17,13 @@ import { PostAuthController } from 'src/modules/post/controllers/post.auth.contr
         UserModule,
         FriendshipModule,
         PostModule,
+        CommentModule,
     ],
     controllers: [
         UserAuthController,
         FriendshipAuthController,
         PostAuthController,
+        CommentAuthController,
     ],
     providers: [],
     exports: [],
