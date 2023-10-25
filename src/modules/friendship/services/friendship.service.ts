@@ -1,4 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import {
+    BadRequestException,
+    Injectable,
+    InternalServerErrorException,
+    NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FriendshipEntity } from '../entities/friendship.entity';
 import { Repository } from 'typeorm';
@@ -7,6 +12,7 @@ import { FriendshipRequestDTO } from '../dtos/friendship.request.dto';
 import { UserService } from 'src/modules/user/services/user.service';
 import { instanceToPlain } from 'class-transformer';
 import { ENUM_FRIENDSHIP_STATUS } from '../constants/friendship.enum.constant';
+import { ENUM_FRIENDSHIP_STATUS_CODE_ERROR } from '../constants/friendship.status-code.constant';
 
 @Injectable()
 export class FriendshipService {
@@ -30,5 +36,87 @@ export class FriendshipService {
         );
 
         return instanceToPlain({ data: friendshipCreated });
+    }
+
+    async acceptRequest(id: string) {
+        const friendshipRequest = await this.friendshipRepo.findOne({
+            where: { id },
+        });
+
+        if (!friendshipRequest) {
+            throw new NotFoundException({
+                statusCode:
+                    ENUM_FRIENDSHIP_STATUS_CODE_ERROR.FRIENDSHIP_NOT_FOUND_ERROR,
+                message: 'friendship.error.notFound',
+            });
+        }
+        if (
+            friendshipRequest.friendshipStatus !==
+            ENUM_FRIENDSHIP_STATUS.PENDING
+        ) {
+            throw new BadRequestException({
+                statusCode:
+                    ENUM_FRIENDSHIP_STATUS_CODE_ERROR.FRIENDSHIP_STATUS_INVALID_ERROR,
+                message: 'friendship.error.statusInvalid',
+            });
+        }
+
+        await this.friendshipRepo.save(friendshipRequest.acceptRequest());
+    }
+
+    async rejectRequest(id: string) {
+        const friendshipRequest = await this.friendshipRepo.findOne({
+            where: { id },
+        });
+
+        if (!friendshipRequest) {
+            throw new NotFoundException({
+                statusCode:
+                    ENUM_FRIENDSHIP_STATUS_CODE_ERROR.FRIENDSHIP_NOT_FOUND_ERROR,
+                message: 'friendship.error.notFound',
+            });
+        }
+        if (
+            friendshipRequest.friendshipStatus !==
+            ENUM_FRIENDSHIP_STATUS.PENDING
+        ) {
+            throw new BadRequestException({
+                statusCode:
+                    ENUM_FRIENDSHIP_STATUS_CODE_ERROR.FRIENDSHIP_STATUS_INVALID_ERROR,
+                message: 'friendship.error.statusInvalid',
+            });
+        }
+
+        await this.friendshipRepo.save(friendshipRequest.rejectRequest());
+    }
+
+    async revokeRequest(id: string) {
+        const friendshipRequest = await this.friendshipRepo.findOne({
+            where: { id },
+        });
+
+        if (!friendshipRequest) {
+            throw new NotFoundException({
+                statusCode:
+                    ENUM_FRIENDSHIP_STATUS_CODE_ERROR.FRIENDSHIP_NOT_FOUND_ERROR,
+                message: 'friendship.error.notFound',
+            });
+        }
+        if (
+            friendshipRequest.friendshipStatus !==
+            ENUM_FRIENDSHIP_STATUS.PENDING
+        ) {
+            throw new BadRequestException({
+                statusCode:
+                    ENUM_FRIENDSHIP_STATUS_CODE_ERROR.FRIENDSHIP_STATUS_INVALID_ERROR,
+                message: 'friendship.error.statusInvalid',
+            });
+        }
+
+        try {
+            await this.friendshipRepo.delete({ id });
+        } catch (error) {
+            console.error(error);
+        }
     }
 }

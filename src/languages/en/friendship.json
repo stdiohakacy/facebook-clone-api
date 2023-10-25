@@ -1,3 +1,9 @@
 {
-    "request": "Send request friend succeed!"
+    "request": "Send request friend succeed!",
+    "acceptRequest": "Accept request friend succeed!",
+    "rejectRequest": "Reject request friend succeed!",
+    "revokeRequest": "Revoke request friend succeed!",
+    "error": {
+        "notFound": "Friendship not found!"
+    }
 }

@@ -15,3 +15,21 @@ export function FriendshipAuthRequestDoc(): MethodDecorator {
         DocResponse('friendship.request')
     );
 }
+
+export function FriendshipAuthAcceptRequestDoc(): MethodDecorator {
+    return applyDecorators(
+        Doc({ operation: 'modules.auth.friendship' }),
+        DocAuth({ jwtAccessToken: true }),
+        DocRequest({ bodyType: ENUM_DOC_REQUEST_BODY_TYPE.JSON }),
+        DocResponse('friendship.acceptRequest')
+    );
+}
+
+export function FriendshipAuthRejectRequestDoc(): MethodDecorator {
+    return applyDecorators(
+        Doc({ operation: 'modules.auth.friendship' }),
+        DocAuth({ jwtAccessToken: true }),
+        DocRequest({ bodyType: ENUM_DOC_REQUEST_BODY_TYPE.JSON }),
+        DocResponse('friendship.rejectRequest')
+    );
+}

@@ -33,4 +33,14 @@ export class FriendshipEntity
     @ManyToOne(() => UserEntity, (toUser) => toUser.t_friendships)
     @JoinColumn({ name: 'toUserId' })
     toUser?: UserEntity;
+
+    acceptRequest() {
+        this.friendshipStatus = ENUM_FRIENDSHIP_STATUS.ACCEPTED;
+        return this;
+    }
+
+    rejectRequest() {
+        this.friendshipStatus = ENUM_FRIENDSHIP_STATUS.REJECTED;
+        return this;
+    }
 }
