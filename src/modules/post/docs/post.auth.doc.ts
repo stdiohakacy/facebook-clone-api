@@ -24,3 +24,12 @@ export function PostAuthUpdateDoc(): MethodDecorator {
         DocResponse('post.update')
     );
 }
+
+export function PostAuthDeleteDoc(): MethodDecorator {
+    return applyDecorators(
+        Doc({ operation: 'modules.auth.post' }),
+        DocAuth({ jwtAccessToken: true }),
+        DocRequest({ bodyType: ENUM_DOC_REQUEST_BODY_TYPE.JSON }),
+        DocResponse('post.delete')
+    );
+}

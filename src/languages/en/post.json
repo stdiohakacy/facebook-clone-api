@@ -1,6 +1,7 @@
 {
     "create": "Post created!",
     "update": "Post updated!",
+    "delete": "Post deleted!",
     "error": {
         "notFound": "Post not found"
     }

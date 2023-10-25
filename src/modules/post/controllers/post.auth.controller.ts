@@ -1,11 +1,13 @@
 import {
     Body,
     Controller,
+    Delete,
     HttpCode,
     HttpStatus,
     Param,
     Patch,
     Post,
+    Put,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthJwtAccessProtected } from 'src/core/auth/decorators/auth.jwt.decorator';
@@ -18,7 +20,11 @@ import {
 import { UserEntity } from 'src/modules/user/entities/user.entity';
 import { PostService } from '../services/post.service';
 import { PostCreateDTO } from '../dtos/post.create.dto';
-import { PostAuthCreateDoc, PostAuthUpdateDoc } from '../docs/post.auth.doc';
+import {
+    PostAuthCreateDoc,
+    PostAuthDeleteDoc,
+    PostAuthUpdateDoc,
+} from '../docs/post.auth.doc';
 import { PostUpdateDTO } from '../dtos/post.update.dto';
 
 @ApiTags('modules.auth.post')
@@ -44,11 +50,21 @@ export class PostAuthController {
     @UserProtected()
     @AuthJwtAccessProtected()
     @HttpCode(HttpStatus.OK)
-    @Post('/:id')
+    @Put('/:id')
     async update(
         @Param('id') id: string,
         @Body() dto: PostUpdateDTO
     ): Promise<IResponse> {
         return await this.postService.update(id, dto);
+    }
+
+    @PostAuthDeleteDoc()
+    @Response('post.delete')
+    @UserProtected()
+    @AuthJwtAccessProtected()
+    @HttpCode(HttpStatus.OK)
+    @Delete('/:id')
+    async delete(@Param('id') id: string) {
+        return await this.postService.delete(id);
     }
 }

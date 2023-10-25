@@ -39,4 +39,19 @@ export class PostService {
 
         return instanceToPlain({ data: postUpdated });
     }
+
+    async delete(id: string) {
+        const post = await this.postRepo.findOne({ where: { id } });
+        if (!post) {
+            throw new NotFoundException({
+                statusCode: ENUM_POST_STATUS_CODE_ERROR.POST_NOT_FOUND_ERROR,
+                message: 'post.error.notFound',
+            });
+        }
+        try {
+            await this.postRepo.delete({ id });
+        } catch (error) {
+            console.error(error);
+        }
+    }
 }
