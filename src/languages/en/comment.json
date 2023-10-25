@@ -1,3 +1,7 @@
 {
-    "create": "Comment created!"
+    "create": "Comment created!",
+    "update": "Comment updated!",
+    "error": {
+        "notFound": "Comment not found!"
+    }
 }

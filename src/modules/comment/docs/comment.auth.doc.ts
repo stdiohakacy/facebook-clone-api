@@ -15,3 +15,12 @@ export function CommentAuthCreateDoc(): MethodDecorator {
         DocResponse('comment.create')
     );
 }
+
+export function CommentAuthUpdateDoc(): MethodDecorator {
+    return applyDecorators(
+        Doc({ operation: 'modules.auth.comment' }),
+        DocAuth({ jwtAccessToken: true }),
+        DocRequest({ bodyType: ENUM_DOC_REQUEST_BODY_TYPE.JSON }),
+        DocResponse('comment.update')
+    );
+}

@@ -1,7 +1,7 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 import { BaseEntity } from '../entity/base.entity';
 import { IsNotEmpty, IsUUID } from 'class-validator';
-import { Type } from 'class-transformer';
+import { Exclude, Type } from 'class-transformer';
 import { faker } from '@faker-js/faker';
 
 export class BaseDTO {
@@ -29,7 +29,8 @@ export class BaseDTO {
     @ApiProperty()
     createdBy: string;
 
-    @ApiProperty()
+    @ApiHideProperty()
+    @Exclude()
     updatedBy: string;
 
     @ApiProperty()
