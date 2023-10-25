@@ -1,13 +1,15 @@
 import { Module } from '@nestjs/common';
-import { AuthCoreModule } from 'src/core/auth/auth.core.module';
-import { AwsModule } from 'src/core/aws/aws.module';
-import { UserAuthController } from 'src/modules/user/controllers/user.auth.controller';
-import { UserModule } from 'src/modules/user/user.module';
+import { AuthCoreModule } from '../../core/auth/auth.core.module';
+import { AwsModule } from '../../core/aws/aws.module';
+import { FriendshipAuthController } from '../../modules/friendship/controllers/friendship.auth.controller';
+import { FriendshipModule } from '../../modules/friendship/friendship.module';
+import { UserAuthController } from '../../modules/user/controllers/user.auth.controller';
+import { UserModule } from '../../modules/user/user.module';
 
 @Module({
-    controllers: [UserAuthController],
+    imports: [AuthCoreModule, AwsModule, UserModule, FriendshipModule],
+    controllers: [UserAuthController, FriendshipAuthController],
     providers: [],
     exports: [],
-    imports: [AuthCoreModule, AwsModule, UserModule],
 })
 export class RoutesAuthModule {}
