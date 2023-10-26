@@ -38,7 +38,7 @@ export function PostAuthDeleteDoc(): MethodDecorator {
 
 export function PostAuthGetDoc(): MethodDecorator {
     return applyDecorators(
-        Doc({ operation: 'modules.admin.post' }),
+        Doc({ operation: 'modules.auth.post' }),
         DocRequest({ params: PostDocParamsId }),
         DocAuth({ jwtAccessToken: true }),
         // DocGuard({ role: true, policy: true }),

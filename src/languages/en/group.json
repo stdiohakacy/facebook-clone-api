@@ -1,0 +1,8 @@
+{
+    "create": "Group created!",
+    "get": "Get group!",
+    "update": "Updated group!",
+    "error": {
+        "notFound": "Group not found!"
+    }
+}

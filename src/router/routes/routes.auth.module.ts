@@ -11,6 +11,8 @@ import { CommentModule } from 'src/modules/comment/comment.module';
 import { CommentAuthController } from 'src/modules/comment/controllers/comment.auth.controller';
 import { NotificationModule } from 'src/modules/notifications/notification.module';
 import { NotificationAuthController } from 'src/modules/notifications/controllers/notification.auth.controller';
+import { GroupModule } from 'src/modules/group/group.module';
+import { GroupAuthController } from 'src/modules/group/controllers/group.auth.controller';
 
 @Module({
     imports: [
@@ -21,6 +23,7 @@ import { NotificationAuthController } from 'src/modules/notifications/controller
         PostModule,
         CommentModule,
         NotificationModule,
+        GroupModule,
     ],
     controllers: [
         UserAuthController,
@@ -28,6 +31,7 @@ import { NotificationAuthController } from 'src/modules/notifications/controller
         PostAuthController,
         CommentAuthController,
         NotificationAuthController,
+        GroupAuthController,
     ],
     providers: [],
     exports: [],

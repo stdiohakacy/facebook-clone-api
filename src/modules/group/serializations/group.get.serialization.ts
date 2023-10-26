@@ -1,10 +1,8 @@
 import { faker } from '@faker-js/faker';
 import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
-import { IsNotEmpty, IsString } from 'class-validator';
-import { BaseDTO } from '../../../core/base/dto/base.dto';
+import { ResponseIdSerialization } from 'src/core/response/serializations/response.id.serialization';
 
-export class GroupDTO extends BaseDTO {
+export class GroupGetSerialization extends ResponseIdSerialization {
     @ApiProperty({
         name: 'name',
         description: 'Name of group',
@@ -12,10 +10,7 @@ export class GroupDTO extends BaseDTO {
         required: true,
         nullable: false,
     })
-    @IsString()
-    @IsNotEmpty()
-    @Type(() => String)
-    name: string;
+    readonly userId: string;
 
     @ApiProperty({
         name: 'description',
@@ -24,8 +19,5 @@ export class GroupDTO extends BaseDTO {
         required: true,
         nullable: false,
     })
-    @IsString()
-    @IsNotEmpty()
-    @Type(() => String)
-    description: string;
+    readonly description: string;
 }

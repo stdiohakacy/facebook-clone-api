@@ -26,7 +26,8 @@ export class BaseDTO {
     @ApiProperty()
     deletedAt: Date;
 
-    @ApiProperty()
+    @ApiHideProperty()
+    @Exclude()
     createdBy: string;
 
     @ApiHideProperty()
