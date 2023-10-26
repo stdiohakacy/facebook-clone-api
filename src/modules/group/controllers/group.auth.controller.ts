@@ -14,8 +14,10 @@ import {
     GroupAuthCreateDoc,
     GroupAuthGetDoc,
     GroupAuthUpdateDoc,
+    GroupMembershipAuthJoinDoc,
 } from '../docs/group.auth.doc';
 import { GroupUpdateDTO } from '../dtos/group.update.dto';
+import { GroupMembershipAuthJoinDTO } from '../dtos/group-membership.join.dto';
 
 @ApiTags('modules.auth.group')
 @Controller({ version: '1', path: '/group' })
@@ -56,5 +58,20 @@ export class GroupAuthController {
     ) {
         dto.updatedBy = userAuth?.id || '';
         return await this.groupService.update(id, dto);
+    }
+
+    @GroupMembershipAuthJoinDoc()
+    @Response('group.join')
+    @UserProtected()
+    @AuthJwtAccessProtected()
+    @Post('/:id/membership')
+    async join(
+        @GetUser() userAuth: UserEntity,
+        @Param('id') id: string,
+        @Body() dto: GroupMembershipAuthJoinDTO
+    ) {
+        dto.createdBy = userAuth?.id || '';
+        dto.memberIds.push(userAuth.id);
+        return await this.groupService.join(id, dto);
     }
 }

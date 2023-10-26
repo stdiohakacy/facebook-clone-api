@@ -2,7 +2,9 @@
     "create": "Group created!",
     "get": "Get group!",
     "update": "Updated group!",
+    "join": "Joined group successed!",
     "error": {
-        "notFound": "Group not found!"
+        "notFound": "Group not found!",
+        "invalidMembers": "Members invalid"
     }
 }

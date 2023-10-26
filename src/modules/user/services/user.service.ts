@@ -14,7 +14,7 @@ import { UserEntity } from '../entities/user.entity';
 import { ENUM_USER_STATUS } from '../constants/user.enum.constant';
 import { UserRegisterDTO } from '../dtos/user.register.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { UserLoginDTO } from '../dtos/user.login.dto';
 import { ENUM_AUTH_LOGIN_WITH } from 'src/core/auth/constants/auth.enum.constant';
 import { randomBytes } from 'crypto';

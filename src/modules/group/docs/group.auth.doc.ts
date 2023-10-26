@@ -38,3 +38,12 @@ export function GroupAuthUpdateDoc(): MethodDecorator {
         DocResponse('group.update')
     );
 }
+
+export function GroupMembershipAuthJoinDoc(): MethodDecorator {
+    return applyDecorators(
+        Doc({ operation: 'modules.auth.groupMembership' }),
+        DocAuth({ jwtAccessToken: true }),
+        DocRequest({ bodyType: ENUM_DOC_REQUEST_BODY_TYPE.JSON }),
+        DocResponse('group.join')
+    );
+}
