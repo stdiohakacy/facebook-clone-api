@@ -39,11 +39,38 @@ export function GroupAuthUpdateDoc(): MethodDecorator {
     );
 }
 
+export function GroupAuthDeleteDoc(): MethodDecorator {
+    return applyDecorators(
+        Doc({ operation: 'modules.auth.group' }),
+        DocAuth({ jwtAccessToken: true }),
+        DocRequest({ params: GroupDocParamsId }),
+        DocResponse('group.delete')
+    );
+}
+
 export function GroupMembershipAuthJoinDoc(): MethodDecorator {
     return applyDecorators(
-        Doc({ operation: 'modules.auth.groupMembership' }),
+        Doc({ operation: 'modules.auth.group' }),
         DocAuth({ jwtAccessToken: true }),
         DocRequest({ bodyType: ENUM_DOC_REQUEST_BODY_TYPE.JSON }),
         DocResponse('group.join')
+    );
+}
+
+export function GroupMembershipAuthAddMemberDoc(): MethodDecorator {
+    return applyDecorators(
+        Doc({ operation: 'modules.auth.group' }),
+        DocAuth({ jwtAccessToken: true }),
+        DocRequest({ bodyType: ENUM_DOC_REQUEST_BODY_TYPE.JSON }),
+        DocResponse('group.addMember')
+    );
+}
+
+export function GroupMembershipAuthRemoveMemberDoc(): MethodDecorator {
+    return applyDecorators(
+        Doc({ operation: 'modules.auth.group' }),
+        DocAuth({ jwtAccessToken: true }),
+        DocRequest({ params: GroupDocParamsId }),
+        DocResponse('group.addMember')
     );
 }

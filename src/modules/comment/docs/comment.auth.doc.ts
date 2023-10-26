@@ -34,7 +34,6 @@ export function CommentAuthDeleteDoc(): MethodDecorator {
         Doc({ operation: 'modules.auth.comment' }),
         DocRequest({ params: CommentDocParamsId }),
         DocAuth({ jwtAccessToken: true }),
-        // DocGuard({ role: true, policy: true }),
         DocResponse('comment.delete')
     );
 }

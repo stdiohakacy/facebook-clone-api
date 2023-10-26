@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    Post,
+    Put,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthJwtAccessProtected } from 'src/core/auth/decorators/auth.jwt.decorator';
 import { Response } from 'src/core/response/decorators/response.decorator';
@@ -12,12 +20,17 @@ import { GroupService } from '../services/group.service';
 import { GroupCreateDTO } from '../dtos/group.create.dto';
 import {
     GroupAuthCreateDoc,
+    GroupAuthDeleteDoc,
     GroupAuthGetDoc,
     GroupAuthUpdateDoc,
+    GroupMembershipAuthAddMemberDoc,
     GroupMembershipAuthJoinDoc,
+    GroupMembershipAuthRemoveMemberDoc,
 } from '../docs/group.auth.doc';
 import { GroupUpdateDTO } from '../dtos/group.update.dto';
 import { GroupMembershipAuthJoinDTO } from '../dtos/group-membership.join.dto';
+import { GroupMembershipAddMemberDTO } from '../dtos/group-membership.add-member.dto';
+import { GroupMembershipRemoveMemberDTO } from '../dtos/group-membership.remove-member.dto';
 
 @ApiTags('modules.auth.group')
 @Controller({ version: '1', path: '/group' })
@@ -60,6 +73,15 @@ export class GroupAuthController {
         return await this.groupService.update(id, dto);
     }
 
+    @GroupAuthDeleteDoc()
+    @Response('group.delete')
+    @UserProtected()
+    @AuthJwtAccessProtected()
+    @Delete('/:id')
+    async delete(@Param('id') id: string) {
+        return await this.groupService.delete(id);
+    }
+
     @GroupMembershipAuthJoinDoc()
     @Response('group.join')
     @UserProtected()
@@ -73,5 +95,34 @@ export class GroupAuthController {
         dto.createdBy = userAuth?.id || '';
         dto.memberIds.push(userAuth.id);
         return await this.groupService.join(id, dto);
+    }
+
+    @GroupMembershipAuthAddMemberDoc()
+    @Response('group.addMember')
+    @UserProtected()
+    @AuthJwtAccessProtected()
+    @Post('/:id/members')
+    async addMember(
+        @GetUser() user: UserEntity,
+        @Param('id') id: string,
+        @Body() dto: GroupMembershipAddMemberDTO
+    ) {
+        dto.createdBy = user?.id || '';
+        return await this.groupService.addMember(id, dto);
+    }
+
+    @GroupMembershipAuthRemoveMemberDoc()
+    @Response('group.removeMember')
+    @UserProtected()
+    @AuthJwtAccessProtected()
+    @Delete('/:groupId/members/:memberId')
+    async removeMember(
+        @Param('groupId') groupId: string,
+        @Param('memberId') memberId: string,
+        @Body() dto: GroupMembershipRemoveMemberDTO
+    ) {
+        dto.userId = memberId;
+        dto.groupId = groupId;
+        return await this.groupService.removeMember(dto);
     }
 }

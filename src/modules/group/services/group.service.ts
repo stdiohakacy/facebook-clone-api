@@ -9,6 +9,8 @@ import { GroupUpdateDTO } from '../dtos/group.update.dto';
 import { GroupMembershipAuthJoinDTO } from '../dtos/group-membership.join.dto';
 import { GroupMembershipEntity } from '../entities/group-membership.entity';
 import { UserService } from 'src/modules/user/services/user.service';
+import { GroupMembershipAddMemberDTO } from '../dtos/group-membership.add-member.dto';
+import { GroupMembershipRemoveMemberDTO } from '../dtos/group-membership.remove-member.dto';
 
 @Injectable()
 export class GroupService {
@@ -56,6 +58,28 @@ export class GroupService {
         await this.groupRepo.update(id, dto);
     }
 
+    async delete(id: string) {
+        const group = await this.groupRepo.findOne({ where: { id } });
+        if (!group) {
+            throw new NotFoundException({
+                statusCode: ENUM_GROUP_ERROR.GROUP_NOT_FOUND_ERROR,
+                message: 'group.error.notFound',
+            });
+        }
+
+        const groupMemberships = await this.groupMembershipRepo.find({
+            where: { groupId: id },
+        });
+        if (groupMemberships.length) {
+            await this.groupMembershipRepo.remove(groupMemberships);
+        }
+        try {
+            await this.groupRepo.delete(id);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     async join(id: string, dto: GroupMembershipAuthJoinDTO) {
         const { memberIds, createdBy } = dto;
         const group = await this.groupRepo.findOne({ where: { id } });
@@ -89,13 +113,52 @@ export class GroupService {
         }
     }
 
-    // async delete(id: string) {
-    //     const group = await this.groupRepo.findOne({ where: { id } });
-    //     if (!group) {
-    //         throw new NotFoundException({
-    //             statusCode: ENUM_GROUP_ERROR.GROUP_NOT_FOUND_ERROR,
-    //             message: 'group.error.notFound',
-    //         });
-    //     }
-    // }
+    async removeMember(dto: GroupMembershipRemoveMemberDTO) {
+        const { groupId, userId } = dto;
+        const groupMember = await this.groupMembershipRepo.findOne({
+            where: { groupId, userId },
+        });
+        if (!groupMember) {
+            throw new NotFoundException({
+                statusCode:
+                    ENUM_GROUP_ERROR.GROUP_MEMBERSHIP_INVALID_MEMBERS_ERROR,
+                message: 'group.error.invalidMembers',
+            });
+        }
+
+        await this.groupMembershipRepo.remove(groupMember);
+    }
+
+    async addMember(id: string, dto: GroupMembershipAddMemberDTO) {
+        const { memberIds, createdBy } = dto;
+        const group = await this.groupRepo.findOne({ where: { id } });
+        if (!group) {
+            throw new NotFoundException({
+                statusCode: ENUM_GROUP_ERROR.GROUP_NOT_FOUND_ERROR,
+                message: 'group.error.notFound',
+            });
+        }
+        if (!memberIds.length) {
+            throw new NotFoundException({
+                statusCode:
+                    ENUM_GROUP_ERROR.GROUP_MEMBERSHIP_INVALID_MEMBERS_ERROR,
+                message: 'group.error.invalidMembers',
+            });
+        }
+
+        try {
+            const groupMembershipCreated = await this.groupMembershipRepo.save(
+                this.groupMembershipRepo.create(
+                    memberIds.map((userId) => ({
+                        userId,
+                        groupId: id,
+                        createdBy,
+                    }))
+                )
+            );
+            return instanceToPlain({ data: groupMembershipCreated });
+        } catch (error) {
+            console.error(error);
+        }
+    }
 }

@@ -31,7 +31,7 @@ export function PostAuthDeleteDoc(): MethodDecorator {
     return applyDecorators(
         Doc({ operation: 'modules.auth.post' }),
         DocAuth({ jwtAccessToken: true }),
-        DocRequest({ bodyType: ENUM_DOC_REQUEST_BODY_TYPE.JSON }),
+        DocRequest({ params: PostDocParamsId }),
         DocResponse('post.delete')
     );
 }
