@@ -13,11 +13,23 @@ services:
     #         MINIO_ROOT_PASSWORD: cdef3456@A
     #     command: server --console-address ":9001" /data
 
-    # redis:
-    #     image: 'redis:alpine'
-    #     ports:
-    #         - '6379:6379'
+    redis:
+        image: 'redis:alpine'
+        ports:
+            - '6379:6379'
+        environment:
+            - REDIS_PASSWORD=${REDIS_PASSWORD}
 
+    redis-commander:
+        image: rediscommander/redis-commander:latest
+        restart: always
+        environment:
+            REDIS_HOSTS: redis
+            REDIS_HOST: redis
+            REDIS_PORT: redis:6379
+            REDIS_PASSWORD: ${REDIS_PASSWORD}
+        ports:
+            - 8081:8081
     postgres:
         image: postgres
         container_name: postgres

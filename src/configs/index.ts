@@ -11,6 +11,7 @@ import DebuggerConfig from './debugger.config';
 import MessageConfig from './message.config';
 import MailConfig from './mail.config';
 import StorageConfig from './storage.config';
+import CacheConfig from './cache.config';
 
 export default [
     AppConfig,
@@ -26,4 +27,5 @@ export default [
     MessageConfig,
     MailConfig,
     StorageConfig,
+    CacheConfig,
 ];

@@ -21,6 +21,7 @@ import { addTransactionalDataSource } from 'typeorm-transactional';
 import { DataSource } from 'typeorm';
 import { BullCoreModule } from './queue/bull/bull.core.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { RedisCoreModule } from './cache/redis/redis.core.module';
 
 @Module({
     controllers: [],
@@ -176,6 +177,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
         EventEmitterModule.forRoot(),
         DebuggerModule.forRoot(),
         AuthCoreModule.forRoot(),
+        RedisCoreModule.forRoot(),
     ],
 })
 export class CommonModule {}
