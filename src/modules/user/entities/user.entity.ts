@@ -99,8 +99,17 @@ export class UserEntity extends BaseEntity<UserDTO> implements IUserEntity {
     @OneToMany(() => MessageEntity, (messages) => messages.receiver)
     t_messages?: MessageEntity[];
 
-    @OneToMany(() => NotificationEntity, (notifications) => notifications.user)
-    notifications?: NotificationEntity[];
+    @OneToMany(
+        () => NotificationEntity,
+        (notifications) => notifications.fromUser
+    )
+    f_notifications?: NotificationEntity[];
+
+    @OneToMany(
+        () => NotificationEntity,
+        (notifications) => notifications.toUser
+    )
+    t_notifications?: NotificationEntity[];
 
     @OneToMany(() => PageFollowEntity, (pageFollows) => pageFollows.user)
     pageFollows?: NotificationEntity[];

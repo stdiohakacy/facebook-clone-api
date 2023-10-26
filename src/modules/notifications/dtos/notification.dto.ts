@@ -1,21 +1,26 @@
 import { faker } from '@faker-js/faker';
-import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
+import { Exclude, Type } from 'class-transformer';
+import { IsEnum, IsNotEmpty, IsString, IsUUID, isEnum } from 'class-validator';
 import { BaseDTO } from '../../../core/base/dto/base.dto';
+import { ENUM_NOTIFICATION_STATUS } from '../constants/notification.enum.constant';
 
 export class NotificationDTO extends BaseDTO {
+    @ApiHideProperty()
+    @Exclude()
+    fromUserId: string;
+
     @ApiProperty({
-        name: 'userId',
-        description: 'User id of notification',
+        name: 'toUserId',
+        description: 'To user id of notification',
         example: faker.string.uuid(),
         required: true,
         nullable: false,
     })
-    @IsString()
+    @IsUUID()
     @IsNotEmpty()
     @Type(() => String)
-    userId: string;
+    toUserId: string;
 
     @ApiProperty({
         name: 'content',
@@ -28,4 +33,16 @@ export class NotificationDTO extends BaseDTO {
     @IsNotEmpty()
     @Type(() => String)
     content: string;
+
+    @ApiProperty({
+        name: 'notificationStatus',
+        description: 'Notification status',
+        example: faker.lorem.sentence(),
+        required: true,
+        nullable: false,
+    })
+    @IsEnum(ENUM_NOTIFICATION_STATUS)
+    @IsNotEmpty()
+    @Type(() => String)
+    notificationStatus: ENUM_NOTIFICATION_STATUS;
 }
