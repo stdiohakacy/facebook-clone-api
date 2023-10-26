@@ -15,3 +15,12 @@ export function NotificationAuthCreateDoc(): MethodDecorator {
         DocResponse('notification.create')
     );
 }
+
+export function NotificationAuthReadDoc(): MethodDecorator {
+    return applyDecorators(
+        Doc({ operation: 'modules.auth.notification' }),
+        DocAuth({ jwtAccessToken: true }),
+        DocRequest({ bodyType: ENUM_DOC_REQUEST_BODY_TYPE.JSON }),
+        DocResponse('notification.read')
+    );
+}

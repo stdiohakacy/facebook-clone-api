@@ -37,4 +37,9 @@ export class NotificationEntity
     @ManyToOne(() => UserEntity, (toUser) => toUser.t_notifications)
     @JoinColumn({ name: 'toUserId' })
     toUser?: UserEntity;
+
+    read() {
+        this.notificationStatus = ENUM_NOTIFICATION_STATUS.READ;
+        return this;
+    }
 }
