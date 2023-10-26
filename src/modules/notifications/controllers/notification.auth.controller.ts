@@ -1,7 +1,10 @@
-import { Body, Controller, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { NotificationService } from '../services/notification.service';
-import { Response } from 'src/core/response/decorators/response.decorator';
+import {
+    Response,
+    ResponsePaging,
+} from 'src/core/response/decorators/response.decorator';
 import {
     GetUser,
     UserProtected,
@@ -12,13 +15,50 @@ import { IResponse } from 'src/core/response/interfaces/response.interface';
 import { NotificationCreateDTO } from '../dtos/notification.create.dto';
 import {
     NotificationAuthCreateDoc,
+    NotificationAuthListDoc,
     NotificationAuthReadDoc,
 } from '../docs/notification.auth.doc';
+import { NotificationListSerialization } from '../serializations/notification.list.serialization';
+import { PaginationQuery } from 'src/core/pagination/decorators/pagination.decorator';
+import {
+    NOTIFICATION_DEFAULT_AVAILABLE_ORDER_BY,
+    NOTIFICATION_DEFAULT_AVAILABLE_SEARCH,
+    NOTIFICATION_DEFAULT_ORDER_BY,
+    NOTIFICATION_DEFAULT_ORDER_DIRECTION,
+    NOTIFICATION_DEFAULT_PER_PAGE,
+} from '../constants/notification.list.constant';
+import { PaginationListDTO } from 'src/core/pagination/dtos/pagination.list.dto';
 
 @ApiTags('modules.auth.notification')
 @Controller({ version: '1', path: '/notification' })
 export class NotificationAuthController {
     constructor(private readonly notificationService: NotificationService) {}
+
+    @NotificationAuthListDoc()
+    @ResponsePaging('notification.list', {
+        serialization: NotificationListSerialization,
+    })
+    @UserProtected()
+    @AuthJwtAccessProtected()
+    @Get('/list')
+    async list(
+        @GetUser() user: UserEntity,
+        @PaginationQuery(
+            NOTIFICATION_DEFAULT_PER_PAGE,
+            NOTIFICATION_DEFAULT_ORDER_BY,
+            NOTIFICATION_DEFAULT_ORDER_DIRECTION,
+            NOTIFICATION_DEFAULT_AVAILABLE_SEARCH,
+            NOTIFICATION_DEFAULT_AVAILABLE_ORDER_BY
+        )
+        { _search, _limit, _offset, _order }: PaginationListDTO
+    ) {
+        return await this.notificationService.findPaging(user.id, {
+            _search,
+            _limit,
+            _offset,
+            _order,
+        });
+    }
 
     @NotificationAuthCreateDoc()
     @Response('notification.create')

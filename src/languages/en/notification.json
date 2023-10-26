@@ -1,5 +1,6 @@
 {
     "create": "Notification created!",
     "read": "Read notification",
+    "list": "Get list notification",
     "error": {}
 }

@@ -6,8 +6,10 @@ import {
     DocAuth,
     DocRequest,
     DocResponse,
+    DocResponsePaging,
 } from 'src/core/doc/decorators/doc.decorator';
 import { CommentDocParamsId } from '../constants/comment.doc.constant';
+import { CommentListSerialization } from '../serializations/comment.list.serialization';
 
 export function CommentAuthCreateDoc(): MethodDecorator {
     return applyDecorators(
@@ -34,5 +36,17 @@ export function CommentAuthDeleteDoc(): MethodDecorator {
         DocAuth({ jwtAccessToken: true }),
         // DocGuard({ role: true, policy: true }),
         DocResponse('comment.delete')
+    );
+}
+
+export function CommentAuthListDoc(): MethodDecorator {
+    return applyDecorators(
+        Doc({ operation: 'module.auth.comment' }),
+        // DocRequest({ queries: ApiKeyDocQueryIsActive }),
+        DocAuth({ jwtAccessToken: true }),
+        // DocGuard({ role: true, policy: true }),
+        DocResponsePaging<CommentListSerialization>('comment.list', {
+            serialization: CommentListSerialization,
+        })
     );
 }

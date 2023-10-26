@@ -22,11 +22,11 @@ import { CommentCreateDTO } from '../dtos/comment.create.dto';
 import {
     CommentAuthCreateDoc,
     CommentAuthDeleteDoc,
+    CommentAuthListDoc,
     CommentAuthUpdateDoc,
 } from '../docs/comment.auth.doc';
 import { UserEntity } from 'src/modules/user/entities/user.entity';
 import { CommentUpdateDTO } from '../dtos/comment.update.dto';
-import { CommentAuthListDoc } from '../docs/comment.list.doc';
 import { CommentListSerialization } from '../serializations/comment.list.serialization';
 import { PaginationQuery } from 'src/core/pagination/decorators/pagination.decorator';
 import {
