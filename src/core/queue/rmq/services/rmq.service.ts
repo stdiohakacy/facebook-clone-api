@@ -21,9 +21,10 @@ import {
 } from '../constants/rmq.constants';
 import { RmqExplorer } from '../explorers/rmq.explorer';
 import { IRMQConnection, IRMQModuleOptions } from '../interfaces/rmq.interface';
+import { IRMQService } from '../interfaces/rmq.service.interface';
 
 @Injectable()
-export class RmqService implements OnModuleInit {
+export class RmqService implements OnModuleInit, IRMQService {
     protected server: AmqpConnectionManager;
     protected connection: Connection;
     protected clientChannel: ChannelWrapper;
@@ -34,6 +35,52 @@ export class RmqService implements OnModuleInit {
         @Inject(RMQ_MODULE_OPTIONS) private readonly options: IRMQModuleOptions,
         private readonly rmqExplorerService: RmqExplorer
     ) {}
+
+    public async send<T>(routingKey: string, message: T) {
+        await this.clientChannel.publish(
+            this.options.exchange.name,
+            routingKey,
+            Buffer.from(JSON.stringify(message)),
+            {
+                replyTo: RMQ_REPLY_QUEUE,
+                timestamp: new Date().getTime(),
+                correlationId: v4(),
+            }
+        );
+    }
+
+    public async createQueue(handler: IRMQHandler) {
+        await this.subscriptionChannel.addSetup(
+            async (channel: ConfirmChannel) => {
+                const { queue } = await channel.assertQueue(handler.meta.queue);
+
+                await channel.bindQueue(
+                    queue,
+                    handler.meta.exchange,
+                    handler.meta.routingKey
+                );
+
+                console.info(`bindQueue - ${handler.meta.routingKey}`);
+
+                await channel.consume(queue, async (msg) => {
+                    console.info(`consume - ${handler.meta.routingKey}`);
+
+                    const msgContent = msg.content.toString();
+
+                    const response: TRMQResponse =
+                        await handler.discoveredMethod.parentClass[
+                            handler.discoveredMethod.methodName
+                        ](JSON.parse(msgContent));
+
+                    if (response === 'nack') {
+                        channel.nack(msg, false, false);
+                    } else {
+                        channel.ack(msg, false);
+                    }
+                });
+            }
+        );
+    }
 
     async onModuleInit() {
         const connectionUri = this.createConnectionUri(this.options.connection);
@@ -147,51 +194,5 @@ export class RmqService implements OnModuleInit {
         this.subscriptionChannel = null;
         this.clientChannel = null;
         this.connection = null;
-    }
-
-    public async send<T>(routingKey: string, message: T) {
-        await this.clientChannel.publish(
-            this.options.exchange.name,
-            routingKey,
-            Buffer.from(JSON.stringify(message)),
-            {
-                replyTo: RMQ_REPLY_QUEUE,
-                timestamp: new Date().getTime(),
-                correlationId: v4(),
-            }
-        );
-    }
-
-    public async createQueue(handler: IRMQHandler) {
-        await this.subscriptionChannel.addSetup(
-            async (channel: ConfirmChannel) => {
-                const { queue } = await channel.assertQueue(handler.meta.queue);
-
-                await channel.bindQueue(
-                    queue,
-                    handler.meta.exchange,
-                    handler.meta.routingKey
-                );
-
-                console.info(`bindQueue - ${handler.meta.routingKey}`);
-
-                await channel.consume(queue, async (msg) => {
-                    console.info(`consume - ${handler.meta.routingKey}`);
-
-                    const msgContent = msg.content.toString();
-
-                    const response: TRMQResponse =
-                        await handler.discoveredMethod.parentClass[
-                            handler.discoveredMethod.methodName
-                        ](JSON.parse(msgContent));
-
-                    if (response === 'nack') {
-                        channel.nack(msg, false, false);
-                    } else {
-                        channel.ack(msg, false);
-                    }
-                });
-            }
-        );
     }
 }

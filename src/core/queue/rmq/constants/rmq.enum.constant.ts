@@ -1,5 +1,5 @@
 export enum RMQ_ENUM_EXCHANGE_TYPE {
-    TOPIC = 'TOPIC',
-    DIRECT = 'DIRECT',
-    X_DELAYED_MESSAGE = 'X_DELAYED_MESSAGE',
+    TOPIC = 'topic',
+    DIRECT = 'direct',
+    X_DELAYED_MESSAGE = 'x-delayed-message',
 }
