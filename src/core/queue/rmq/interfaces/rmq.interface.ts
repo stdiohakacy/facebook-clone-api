@@ -1,3 +1,5 @@
+import { RMQ_ENUM_EXCHANGE_TYPE } from '../constants/rmq.enum.constant';
+
 export interface IRMQConnection {
     login: string;
     password: string;
@@ -9,7 +11,7 @@ export interface IRMQConnection {
 export interface IRMQExchange {
     name: string;
     durable: boolean;
-    type: 'topic' | 'direct' | 'x-delayed-message';
+    type: RMQ_ENUM_EXCHANGE_TYPE;
     arguments?: {
         [key: string]: unknown;
     };

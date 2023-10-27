@@ -6,6 +6,7 @@ import { RmqExplorer } from './explorers/rmq.explorer';
 import { RmqService } from './services/rmq.service';
 import { RmqReceiveService } from './services/receive.service';
 import { ConfigService } from '@nestjs/config';
+import { RMQ_ENUM_EXCHANGE_TYPE } from './constants/rmq.enum.constant';
 
 @Module({
     imports: [DiscoveryModule, MetadataScanner],
@@ -17,7 +18,9 @@ import { ConfigService } from '@nestjs/config';
                 exchange: {
                     name: configService.get('queue.rmq.exchange') || 'example',
                     durable: true,
-                    type: configService.get('queue.rmq.type') || 'direct',
+                    type:
+                        configService.get('queue.rmq.type') ||
+                        RMQ_ENUM_EXCHANGE_TYPE.DIRECT,
                 },
                 connection: {
                     login: configService.get('queue.rmq.username') || 'admin',

@@ -26,16 +26,15 @@ import { IRMQConnection, IRMQModuleOptions } from '../interfaces/rmq.interface';
 export class RmqService implements OnModuleInit {
     protected server: AmqpConnectionManager;
     protected connection: Connection;
-    protected client_channel: ChannelWrapper;
-    protected subscription_channel: ChannelWrapper;
-    protected send_response_emmiter: EventEmitter = new EventEmitter();
+    protected clientChannel: ChannelWrapper;
+    protected subscriptionChannel: ChannelWrapper;
+    protected sendResponseEmitter: EventEmitter = new EventEmitter();
 
     constructor(
         @Inject(RMQ_MODULE_OPTIONS) private readonly options: IRMQModuleOptions,
         private readonly rmqExplorerService: RmqExplorer
     ) {}
 
-    // eslint-disable-next-line @typescript-eslint/explicit-member-accessibility
     async onModuleInit() {
         const connection_uri = this.createConnectionUri(
             this.options.connection
@@ -90,15 +89,11 @@ export class RmqService implements OnModuleInit {
         if (connection.vhost) {
             uri += `/${connection.vhost}`;
         }
-        console.log(uri);
-        console.log(uri);
-        console.log(uri);
-
         return uri;
     }
 
     private async createSubscriptionChannel() {
-        this.subscription_channel = this.server.createChannel({
+        this.subscriptionChannel = this.server.createChannel({
             json: false,
             setup: async (channel: Channel) => {
                 await channel.assertExchange(
@@ -119,50 +114,48 @@ export class RmqService implements OnModuleInit {
     }
 
     private async createClientChannel() {
-        this.client_channel = this.server.createChannel({
+        this.clientChannel = this.server.createChannel({
             json: false,
             setup: async (channel: Channel) => {
                 await channel.consume(
                     RMQ_REPLY_QUEUE,
                     (msg: Message) => {
-                        this.send_response_emmiter.emit(
+                        this.sendResponseEmitter.emit(
                             msg.properties.correlationId,
                             msg
                         );
                     },
-                    {
-                        noAck: true,
-                    }
+                    { noAck: true }
                 );
             },
         });
     }
 
     private close(): void {
-        if (this.subscription_channel) {
-            this.subscription_channel.close();
+        if (this.subscriptionChannel) {
+            this.subscriptionChannel.close();
         }
 
-        if (this.client_channel) {
-            this.client_channel.close();
+        if (this.clientChannel) {
+            this.clientChannel.close();
         }
 
         if (this.server) {
             this.server.close();
         }
 
-        this.send_response_emmiter.removeAllListeners();
+        this.sendResponseEmitter.removeAllListeners();
 
         this.server = null;
-        this.subscription_channel = null;
-        this.client_channel = null;
+        this.subscriptionChannel = null;
+        this.clientChannel = null;
         this.connection = null;
     }
 
-    public async send<T>(routing_key: string, message: T) {
-        await this.client_channel.publish(
+    public async send<T>(routingKey: string, message: T) {
+        await this.clientChannel.publish(
             this.options.exchange.name,
-            routing_key,
+            routingKey,
             Buffer.from(JSON.stringify(message)),
             {
                 replyTo: RMQ_REPLY_QUEUE,
@@ -173,7 +166,7 @@ export class RmqService implements OnModuleInit {
     }
 
     public async createQueue(handler: IRMQHandler) {
-        await this.subscription_channel.addSetup(
+        await this.subscriptionChannel.addSetup(
             async (channel: ConfirmChannel) => {
                 const { queue } = await channel.assertQueue(handler.meta.queue);
 
