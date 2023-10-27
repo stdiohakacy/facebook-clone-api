@@ -22,7 +22,7 @@ import { DataSource } from 'typeorm';
 import { BullCoreModule } from './queue/bull/bull.core.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { RedisCoreModule } from './cache/redis/redis.core.module';
-import { RmqCoreModule } from './queue/rmq/rmq.module';
+import { RmqCoreModule } from './queue/rmq/rmq.core.module';
 
 @Module({
     controllers: [],

@@ -36,17 +36,15 @@ export class RmqService implements OnModuleInit {
     ) {}
 
     async onModuleInit() {
-        const connection_uri = this.createConnectionUri(
-            this.options.connection
-        );
+        const connectionUri = this.createConnectionUri(this.options.connection);
 
-        const connection_options = {
+        const connectionOptions = {
             reconnectTimeInSeconds: this.options.reconnectTimeInSeconds ?? 5,
             heartbeatIntervalInSeconds:
                 this.options.heartbeatIntervalInSeconds ?? 5,
         };
 
-        this.server = connect([connection_uri], connection_options);
+        this.server = connect([connectionUri], connectionOptions);
 
         this.server.on(CONNECT_EVENT, (connection: Connection) => {
             this.connection = connection;
@@ -70,7 +68,6 @@ export class RmqService implements OnModuleInit {
         ]);
 
         const handlers = this.rmqExplorerService.handlers;
-        console.log(handlers);
 
         for (const handler of handlers) {
             await this.createQueue(handler);
@@ -181,12 +178,12 @@ export class RmqService implements OnModuleInit {
                 await channel.consume(queue, async (msg) => {
                     console.info(`consume - ${handler.meta.routingKey}`);
 
-                    const msg_content = msg.content.toString();
+                    const msgContent = msg.content.toString();
 
                     const response: TRMQResponse =
                         await handler.discoveredMethod.parentClass[
                             handler.discoveredMethod.methodName
-                        ](JSON.parse(msg_content));
+                        ](JSON.parse(msgContent));
 
                     if (response === 'nack') {
                         channel.nack(msg, false, false);
