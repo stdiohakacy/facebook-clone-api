@@ -5,26 +5,30 @@ import { RMQ_MODULE_OPTIONS } from './constants/rmq.constants';
 import { RmqExplorer } from './explorers/rmq.explorer';
 import { RmqService } from './services/rmq.service';
 import { RmqReceiveService } from './services/receive.service';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
     imports: [DiscoveryModule, MetadataScanner],
     providers: [
         {
             provide: RMQ_MODULE_OPTIONS,
-            useValue: {
+
+            useFactory: (configService: ConfigService) => ({
                 exchange: {
-                    name: 'example',
+                    name: configService.get('queue.rmq.exchange') || 'example',
                     durable: true,
-                    type: 'direct',
+                    type: configService.get('queue.rmq.type') || 'direct',
                 },
                 connection: {
-                    login: 'admin',
-                    password: '123456',
-                    host: 'localhost',
-                    port: 5672,
-                    vhost: 'vhost',
+                    login: configService.get('queue.rmq.username') || 'admin',
+                    password:
+                        configService.get('queue.rmq.password') || '123456',
+                    host: configService.get('queue.rmq.host') || 'localhost',
+                    port: configService.get('queue.rmq.port') || 5672,
+                    vhost: configService.get('queue.rmq.vhost') || 'vhost',
                 },
-            },
+            }),
+            inject: [ConfigService],
         },
         RmqExplorer,
         RmqService,
