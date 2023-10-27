@@ -11,8 +11,6 @@ import { Channel, Message, Connection, ConfirmChannel } from 'amqplib';
 import { v4 } from 'uuid';
 
 import {
-    IRMQModuleOptions,
-    IRMQConnection,
     RMQ_MODULE_OPTIONS,
     RMQ_REPLY_QUEUE,
     ERROR_EVENT,
@@ -20,8 +18,9 @@ import {
     CONNECT_EVENT,
     IRMQHandler,
     TRMQResponse,
-} from './rmq.constants';
-import { RmqExplorer } from './rmq.explorer';
+} from '../constants/rmq.constants';
+import { RmqExplorer } from '../explorers/rmq.explorer';
+import { IRMQConnection, IRMQModuleOptions } from '../interfaces/rmq.interface';
 
 @Injectable()
 export class RmqService implements OnModuleInit {
@@ -91,6 +90,9 @@ export class RmqService implements OnModuleInit {
         if (connection.vhost) {
             uri += `/${connection.vhost}`;
         }
+        console.log(uri);
+        console.log(uri);
+        console.log(uri);
 
         return uri;
     }

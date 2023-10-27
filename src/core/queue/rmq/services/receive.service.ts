@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { TRMQResponse } from '../rmq.constants';
-import { RMQProvider, RMQSubscription } from '../rmq.decorators';
-import { RmqService } from '../rmq.service';
+import { TRMQResponse } from '../constants/rmq.constants';
+import { RMQProvider, RMQSubscription } from '../decorators/rmq.decorators';
+import { RmqService } from './rmq.service';
 
 @RMQProvider()
 @Injectable()

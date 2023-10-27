@@ -4,9 +4,9 @@ import { applyDecorators, SetMetadata } from '@nestjs/common';
 
 import {
     RMQ_ROUTES_OPTIONS,
-    IRouteOptions,
     RMQ_PROVIDER_OPTIONS,
-} from './rmq.constants';
+} from '../constants/rmq.constants';
+import { IRouteOptions } from '../interfaces/rmq.interface';
 
 export const RMQSubscription = (options: IRouteOptions): MethodDecorator => {
     return applyDecorators(

@@ -1,12 +1,10 @@
 import { Module } from '@nestjs/common';
 import { DiscoveryModule } from '@nestjs/core';
 import { MetadataScanner } from '@nestjs/core/metadata-scanner';
-import { RMQ_MODULE_OPTIONS } from './rmq.constants';
-import { RmqExplorer } from './rmq.explorer';
-import { RmqService } from './rmq.service';
+import { RMQ_MODULE_OPTIONS } from './constants/rmq.constants';
+import { RmqExplorer } from './explorers/rmq.explorer';
+import { RmqService } from './services/rmq.service';
 import { RmqReceiveService } from './services/receive.service';
-
-// const rabbit_settings = config.get<IRabbitMQSettings>('RABBITMQ_SETTINGS');
 
 @Module({
     imports: [DiscoveryModule, MetadataScanner],
@@ -24,7 +22,7 @@ import { RmqReceiveService } from './services/receive.service';
                     password: '123456',
                     host: 'localhost',
                     port: 5672,
-                    // vhost: rabbit_settings.vhost,
+                    vhost: 'vhost',
                 },
             },
         },

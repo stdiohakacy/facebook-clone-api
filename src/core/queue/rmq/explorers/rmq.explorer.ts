@@ -7,7 +7,7 @@ import {
     IRMQHandler,
     RMQ_PROVIDER_OPTIONS,
     RMQ_ROUTES_OPTIONS,
-} from './rmq.constants';
+} from '../constants/rmq.constants';
 
 @Injectable()
 export class RmqExplorer {
