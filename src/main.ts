@@ -18,6 +18,12 @@ async function bootstrap() {
     );
     const version: string = configService.get<string>('app.versioning.version');
 
+    const redisHost: string = configService.get<string>('cache.redis.host');
+    const redisPort: number = configService.get<number>('cache.redis.portUI');
+
+    const rmqHost: string = configService.get<string>('queue.rmq.host');
+    const rmqPort: number = configService.get<number>('queue.rmq.portUI');
+
     // enable
     const httpEnable: boolean = configService.get<boolean>('app.http.enable');
     const versionEnable: string = configService.get<string>(
@@ -66,6 +72,14 @@ async function bootstrap() {
     logger.log(
         `Http Server running on ${await app.getUrl()}`,
         'NestApplication'
+    );
+    logger.log(
+        `Redis running on: http://${redisHost}:${redisPort}`,
+        'Redis UI'
+    );
+    logger.log(
+        `RabbitMQ running on: http://${rmqHost}:${rmqPort}`,
+        'Rabbit UI'
     );
     logger.log(`Database uri ${databaseUri}`, 'NestApplication');
 

@@ -1,5 +1,4 @@
 import { applyDecorators } from '@nestjs/common';
-import { functionsIn } from 'lodash';
 import { ENUM_DOC_REQUEST_BODY_TYPE } from 'src/core/doc/constants/doc.enum.constant';
 import {
     Doc,

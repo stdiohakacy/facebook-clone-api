@@ -1,7 +1,6 @@
 import { DynamicModule, Module, Provider } from '@nestjs/common';
 import { RedisService } from './services/redis.service';
 import { ConfigService } from '@nestjs/config';
-
 import IORedis, { Redis } from 'ioredis';
 import {
     REDIS_PUBLISHER_CLIENT,
@@ -11,8 +10,6 @@ import {
 @Module({
     providers: [RedisService],
     exports: [RedisService],
-    controllers: [],
-    imports: [],
 })
 export class RedisCoreModule {
     static forRoot(): DynamicModule {

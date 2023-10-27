@@ -25,6 +25,12 @@ export class MinioStorageProvider implements IStorage {
         file: Buffer,
         options: any
     ): Promise<AwsS3Serialization> {
+        console.log(this.minioClient);
+        console.log({
+            objectName,
+            file,
+            options,
+        });
         return {
             path: 'string',
             pathWithFilename: 'string',

@@ -15,10 +15,10 @@ export class DatabaseOptionService implements IDatabaseOptionService {
         const database = this.configService.get<string>('database.name');
         const username = this.configService.get<string>('database.username');
         const password = this.configService.get<string>('database.password');
-        const debug = this.configService.get<boolean>('database.debug');
-        const options = this.configService.get<string>('database.options')
-            ? `?${this.configService.get<string>('database.options')}`
-            : '';
+        // const debug = this.configService.get<boolean>('database.debug');
+        // const options = this.configService.get<string>('database.options')
+        //     ? `?${this.configService.get<string>('database.options')}`
+        //     : '';
 
         return {
             entities: [

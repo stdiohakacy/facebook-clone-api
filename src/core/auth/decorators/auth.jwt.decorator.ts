@@ -1,4 +1,4 @@
-import { applyDecorators, SetMetadata, UseGuards } from '@nestjs/common';
+import { applyDecorators, UseGuards } from '@nestjs/common';
 import { AuthJwtAccessGuard } from 'src/core/auth/guards/jwt-access/auth.jwt-access.guard';
 import { AuthJwtRefreshGuard } from 'src/core/auth/guards/jwt-refresh/auth.jwt-refresh.guard';
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';

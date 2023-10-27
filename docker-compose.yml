@@ -12,14 +12,21 @@ services:
     #         MINIO_ROOT_USER: minio_admin
     #         MINIO_ROOT_PASSWORD: cdef3456@A
     #     command: server --console-address ":9001" /data
-
+    rabbitmq:
+        image: rabbitmq:management
+        container_name: rabbitmq
+        environment:
+            - RABBITMQ_DEFAULT_USER=${RMQ_USERNAME}
+            - RABBITMQ_DEFAULT_PASS=${RMQ_PASSWORD}
+        ports:
+            - '5672:5672'
+            - '15672:15672'
     redis:
         image: 'redis:alpine'
         ports:
             - '6379:6379'
-        environment:
-            - REDIS_PASSWORD=${REDIS_PASSWORD}
-
+        # environment:
+        #     - REDIS_PASSWORD=${REDIS_PASSWORD}
     redis-commander:
         image: rediscommander/redis-commander:latest
         restart: always
@@ -27,7 +34,7 @@ services:
             REDIS_HOSTS: redis
             REDIS_HOST: redis
             REDIS_PORT: redis:6379
-            REDIS_PASSWORD: ${REDIS_PASSWORD}
+            # REDIS_PASSWORD: ${REDIS_PASSWORD}
         ports:
             - 8081:8081
     postgres:
@@ -50,14 +57,15 @@ services:
         ports:
             - '8080:80'
         volumes:
-            - /data/pgadmin:/root/.pgadmin
+            - pgadmin:/root/.pgadmin
         env_file:
             - .env
         links:
             - postgres
-
 volumes:
     postgres:
         driver: local
     pgadmin:
+        driver: local
+    rmq_data:
         driver: local

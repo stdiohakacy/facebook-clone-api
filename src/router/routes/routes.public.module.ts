@@ -6,13 +6,23 @@ import { MessagePublicController } from 'src/core/message/controllers/message.pu
 import { CqrsModule } from '@nestjs/cqrs';
 import { UserPublicController } from 'src/modules/user/controllers/user.public.controller';
 import { UserModule } from 'src/modules/user/user.module';
+import { TestPublicController } from 'src/modules/test/controllers/test.public.controller';
+import { TestModule } from 'src/modules/test/test.module';
 
 @Module({
-    imports: [CqrsModule, UserModule, TerminusModule, HealthModule, UserModule],
+    imports: [
+        CqrsModule,
+        UserModule,
+        TerminusModule,
+        HealthModule,
+        UserModule,
+        TestModule,
+    ],
     controllers: [
         HealthPublicController,
         MessagePublicController,
         UserPublicController,
+        TestPublicController,
     ],
     providers: [],
     exports: [],

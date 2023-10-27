@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import { IsNotEmpty, IsUUID } from 'class-validator';
 import { BaseDTO } from '../../../core/base/dto/base.dto';
 
 export class GroupMembershipDTO extends BaseDTO {
@@ -12,7 +12,7 @@ export class GroupMembershipDTO extends BaseDTO {
         required: true,
         nullable: false,
     })
-    @IsString()
+    @IsUUID()
     @IsNotEmpty()
     @Type(() => String)
     userId: string;
@@ -24,7 +24,7 @@ export class GroupMembershipDTO extends BaseDTO {
         required: true,
         nullable: false,
     })
-    @IsString()
+    @IsUUID()
     @IsNotEmpty()
     @Type(() => String)
     groupId: string;

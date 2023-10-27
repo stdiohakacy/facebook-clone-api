@@ -7,10 +7,7 @@ import { CommentCreateDTO } from '../dtos/comment.create.dto';
 import { PostService } from 'src/modules/post/services/post.service';
 import { ENUM_COMMENT_STATUS_CODE_ERROR } from '../constants/comment.status-code.constant';
 import { CommentUpdateDTO } from '../dtos/comment.update.dto';
-import {
-    PaginationListDTO,
-    PaginationOmitListDTO,
-} from 'src/core/pagination/dtos/pagination.list.dto';
+import { PaginationOmitListDTO } from 'src/core/pagination/dtos/pagination.list.dto';
 import { PaginationService } from 'src/core/pagination/services/pagination.service';
 
 @Injectable()

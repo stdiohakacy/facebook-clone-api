@@ -14,7 +14,7 @@ import { UserEntity } from '../entities/user.entity';
 import { ENUM_USER_STATUS } from '../constants/user.enum.constant';
 import { UserRegisterDTO } from '../dtos/user.register.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { UserLoginDTO } from '../dtos/user.login.dto';
 import { ENUM_AUTH_LOGIN_WITH } from 'src/core/auth/constants/auth.enum.constant';
 import { randomBytes } from 'crypto';
@@ -34,8 +34,6 @@ import { IAuthPassword } from 'src/core/auth/interfaces/auth.interface';
 import { IFile } from 'src/core/file/interfaces/file.interface';
 import { HelperStringService } from 'src/core/helper/services/helper.string.service';
 import { StorageProviderFactory } from 'src/modules/storages/storage.provider.factory';
-import { IAwsS3PutItemOptions } from 'src/core/aws/interfaces/aws.interface';
-import { AwsS3Serialization } from 'src/core/aws/serializations/aws.s3.serialization';
 
 @Injectable()
 export class UserService {

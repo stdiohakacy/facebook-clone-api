@@ -6,7 +6,6 @@ import {
     DocRequest,
     DocResponse,
 } from 'src/core/doc/decorators/doc.decorator';
-import { PostDocParamsId } from 'src/modules/post/constants/post.doc.constant';
 import { GroupGetSerialization } from '../serializations/group.get.serialization';
 import { GroupDocParamsId } from '../constants/group.doc.constant';
 

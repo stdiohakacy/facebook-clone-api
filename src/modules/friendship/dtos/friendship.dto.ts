@@ -1,14 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import {
-    IsEnum,
-    IsNotEmpty,
-    IsString,
-    IsUUID,
-    MaxLength,
-    MinLength,
-} from 'class-validator';
+import { IsEnum, IsNotEmpty, IsUUID } from 'class-validator';
 import { BaseDTO } from '../../../core/base/dto/base.dto';
 import { ENUM_FRIENDSHIP_STATUS } from '../constants/friendship.enum.constant';
 

@@ -37,7 +37,6 @@ import {
     COMMENT_DEFAULT_PER_PAGE,
 } from '../constants/comment.list.constant';
 import { PaginationListDTO } from 'src/core/pagination/dtos/pagination.list.dto';
-import { IResponsePaging } from 'src/core/response/interfaces/response.interface';
 
 @ApiTags('modules.auth.comment')
 @Controller({ version: '1', path: '/comment' })

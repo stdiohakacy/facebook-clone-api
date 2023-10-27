@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 import { Exclude, Type } from 'class-transformer';
-import { IsEnum, IsNotEmpty, IsString, IsUUID, isEnum } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsString, IsUUID } from 'class-validator';
 import { BaseDTO } from '../../../core/base/dto/base.dto';
 import { ENUM_NOTIFICATION_STATUS } from '../constants/notification.enum.constant';
 

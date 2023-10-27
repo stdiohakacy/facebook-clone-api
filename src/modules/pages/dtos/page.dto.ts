@@ -1,7 +1,6 @@
-import { faker } from '@faker-js/faker';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 import { BaseDTO } from '../../../core/base/dto/base.dto';
 
 export class PageDTO extends BaseDTO {

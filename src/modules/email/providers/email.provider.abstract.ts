@@ -10,5 +10,11 @@ export abstract class AbstractEmailProvider {
         if (!templateContent) return '';
         return Mustache.render(templateContent.content, params);
     }
-    send(toEmails: string[], subject: string, htmlContent: string) {}
+    send(toEmails: string[], subject: string, htmlContent: string) {
+        console.log({
+            toEmails,
+            subject,
+            htmlContent,
+        });
+    }
 }

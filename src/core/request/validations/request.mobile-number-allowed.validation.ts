@@ -14,6 +14,7 @@ export class MobileNumberAllowedConstraint
     // constructor(private readonly settingService: SettingService) {}
 
     async validate(value: string): Promise<boolean> {
+        console.log(value);
         // const mobileNumbersSetting: string[] =
         //     await this.settingService.getMobileNumberCountryCodeAllowed();
         // mobileNumbersSetting;

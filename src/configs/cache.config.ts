@@ -6,6 +6,7 @@ export default registerAs(
         redis: {
             host: process.env.REDIS_HOST || 'localhost',
             port: Number(process.env.REDIS_PORT) || 6379,
+            portUI: Number(process.env.REDIS_PORT_UI) || 8081,
             password: process.env.REDIS_PASSWORD || 'password',
         },
     })

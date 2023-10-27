@@ -1,5 +1,5 @@
-import { ApiHideProperty, ApiProperty, OmitType } from '@nestjs/swagger';
-import { Exclude, Type } from 'class-transformer';
+import { ApiHideProperty, OmitType } from '@nestjs/swagger';
+import { Exclude } from 'class-transformer';
 import { AwsS3Serialization } from '../../../core/aws/serializations/aws.s3.serialization';
 import { UserProfileSerialization } from '../../../modules/user/serializations/user.profile.serialization';
 

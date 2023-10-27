@@ -36,7 +36,7 @@ export class MessageDTO extends BaseDTO {
         required: true,
         nullable: false,
     })
-    @IsUUID()
+    @IsString()
     @IsNotEmpty()
     @Type(() => String)
     content: string;

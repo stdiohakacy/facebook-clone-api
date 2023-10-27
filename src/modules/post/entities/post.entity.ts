@@ -4,7 +4,6 @@ import { PostDTO } from '../dtos/post.dto';
 import { UseDTO } from '../../../core/base/decorator/use-dto.decorator';
 import { UserEntity } from '../../../modules/user/entities/user.entity';
 import { CommentEntity } from '../../../modules/comment/entities/comment.entity';
-import { PostUpdateDTO } from '../dtos/post.update.dto';
 
 export interface IPostEntity extends IBaseEntity<PostDTO> {
     content: string;

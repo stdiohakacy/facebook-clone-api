@@ -12,6 +12,7 @@ import MessageConfig from './message.config';
 import MailConfig from './mail.config';
 import StorageConfig from './storage.config';
 import CacheConfig from './cache.config';
+import QueueConfig from './queue.config';
 
 export default [
     AppConfig,
@@ -28,4 +29,5 @@ export default [
     MailConfig,
     StorageConfig,
     CacheConfig,
+    QueueConfig,
 ];
