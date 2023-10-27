@@ -22,6 +22,7 @@ import { DataSource } from 'typeorm';
 import { BullCoreModule } from './queue/bull/bull.core.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { RedisCoreModule } from './cache/redis/redis.core.module';
+import { RmqCoreModule } from './queue/rmq/rmq.module';
 
 @Module({
     controllers: [],
@@ -174,6 +175,7 @@ import { RedisCoreModule } from './cache/redis/redis.core.module';
         ResponseModule,
         RequestModule,
         ApiKeyModule,
+        RmqCoreModule,
         EventEmitterModule.forRoot(),
         DebuggerModule.forRoot(),
         AuthCoreModule.forRoot(),

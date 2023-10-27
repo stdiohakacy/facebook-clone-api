@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TestService } from './services/test.service';
-import { DiscoveryModule, MetadataScanner } from '@nestjs/core';
+import {} from '@nestjs/core';
+import { RmqCoreModule } from 'src/core/queue/rmq/rmq.module';
 @Module({
-    imports: [DiscoveryModule, MetadataScanner],
+    imports: [RmqCoreModule],
     providers: [TestService],
     exports: [TestService],
 })
