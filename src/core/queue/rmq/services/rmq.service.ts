@@ -36,6 +36,47 @@ export class RmqService implements OnModuleInit, IRMQService {
         private readonly rmqExplorerService: RmqExplorer
     ) {}
 
+    async onModuleInit() {
+        const connectionUri = this.createConnectionUri(this.options.connection);
+
+        const connectionOptions = {
+            reconnectTimeInSeconds: this.options.reconnectTimeInSeconds ?? 5,
+            heartbeatIntervalInSeconds:
+                this.options.heartbeatIntervalInSeconds ?? 5,
+        };
+
+        this.server = connect([connectionUri], connectionOptions);
+
+        this.server.on(CONNECT_EVENT, (connection: Connection) => {
+            this.connection = connection;
+
+            console.info('RMQModule connected');
+        });
+
+        this.server.addListener(ERROR_EVENT, (err: unknown) => {
+            console.error(err);
+        });
+
+        this.server.addListener(DISCONNECT_EVENT, (err: any) => {
+            console.error(err);
+
+            this.close();
+        });
+
+        await Promise.all([
+            this.createSubscriptionChannel(),
+            this.createClientChannel(),
+        ]);
+
+        const handlers = this.rmqExplorerService.handlers;
+
+        for (const handler of handlers) {
+            await this.createQueue(handler);
+        }
+
+        console.info('RMQModule dependencies initialized');
+    }
+
     public async send<T>(routingKey: string, message: T) {
         await this.clientChannel.publish(
             this.options.exchange.name,
@@ -80,47 +121,6 @@ export class RmqService implements OnModuleInit, IRMQService {
                 });
             }
         );
-    }
-
-    async onModuleInit() {
-        const connectionUri = this.createConnectionUri(this.options.connection);
-
-        const connectionOptions = {
-            reconnectTimeInSeconds: this.options.reconnectTimeInSeconds ?? 5,
-            heartbeatIntervalInSeconds:
-                this.options.heartbeatIntervalInSeconds ?? 5,
-        };
-
-        this.server = connect([connectionUri], connectionOptions);
-
-        this.server.on(CONNECT_EVENT, (connection: Connection) => {
-            this.connection = connection;
-
-            console.info('RMQModule connected');
-        });
-
-        this.server.addListener(ERROR_EVENT, (err: unknown) => {
-            console.error(err);
-        });
-
-        this.server.addListener(DISCONNECT_EVENT, (err: any) => {
-            console.error(err);
-
-            this.close();
-        });
-
-        await Promise.all([
-            this.createSubscriptionChannel(),
-            this.createClientChannel(),
-        ]);
-
-        const handlers = this.rmqExplorerService.handlers;
-
-        for (const handler of handlers) {
-            await this.createQueue(handler);
-        }
-
-        console.info('RMQModule dependencies initialized');
     }
 
     private createConnectionUri(connection: IRMQConnection): string {

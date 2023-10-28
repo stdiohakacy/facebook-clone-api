@@ -16,7 +16,9 @@ import { RMQ_ENUM_EXCHANGE_TYPE } from './constants/rmq.enum.constant';
 
             useFactory: (configService: ConfigService) => ({
                 exchange: {
-                    name: configService.get('queue.rmq.exchange') || 'example',
+                    name:
+                        configService.get('queue.rmq.exchange') ||
+                        'redis-sync-postgres-exchange',
                     durable: true,
                     type:
                         configService.get('queue.rmq.type') ||

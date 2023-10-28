@@ -5,9 +5,11 @@ import {
     DocAuth,
     DocRequest,
     DocResponse,
+    DocResponsePaging,
 } from 'src/core/doc/decorators/doc.decorator';
 import { PostDocParamsId } from '../constants/post.doc.constant';
 import { PostGetSerialization } from '../serializations/post.get.serialization';
+import { PostListSerialization } from '../serializations/post.list.serialization';
 
 export function PostAuthCreateDoc(): MethodDecorator {
     return applyDecorators(
@@ -44,6 +46,16 @@ export function PostAuthGetDoc(): MethodDecorator {
         // DocGuard({ role: true, policy: true }),
         DocResponse<PostGetSerialization>('post.get', {
             serialization: PostGetSerialization,
+        })
+    );
+}
+
+export function PostAuthListDoc(): MethodDecorator {
+    return applyDecorators(
+        Doc({ operation: 'module.auth.post' }),
+        DocAuth({ jwtAccessToken: true }),
+        DocResponsePaging<PostListSerialization>('post.list', {
+            serialization: PostListSerialization,
         })
     );
 }
