@@ -1,5 +1,3 @@
-import { IRouteOptions } from '../interfaces/rmq.interface';
-
 export const RMQ_MODULE_OPTIONS = 'RMQ_MODULE_OPTIONS';
 export const RMQ_PROVIDER_OPTIONS = 'RMQ_PROVIDER_OPTIONS';
 export const RMQ_ROUTES_OPTIONS = 'RMQ_ROUTES_OPTIONS';
@@ -15,12 +13,3 @@ export const SUBSCRIBE = 'subscribe';
 export const CANCEL_EVENT = 'cancelled';
 
 export type TRMQResponse = 'ack' | 'nack';
-
-export interface IRMQHandler {
-    meta: IRouteOptions;
-    discoveredMethod: {
-        handler: any;
-        methodName: string;
-        parentClass: any;
-    };
-}

@@ -16,11 +16,14 @@ import {
     ERROR_EVENT,
     DISCONNECT_EVENT,
     CONNECT_EVENT,
-    IRMQHandler,
     TRMQResponse,
 } from '../constants/rmq.constants';
 import { RmqExplorer } from '../explorers/rmq.explorer';
-import { IRMQConnection, IRMQModuleOptions } from '../interfaces/rmq.interface';
+import {
+    IRMQConnection,
+    IRMQHandler,
+    IRMQModuleOptions,
+} from '../interfaces/rmq.interface';
 import { IRMQService } from '../interfaces/rmq.service.interface';
 
 @Injectable()
@@ -49,7 +52,6 @@ export class RmqService implements OnModuleInit, IRMQService {
 
         this.server.on(CONNECT_EVENT, (connection: Connection) => {
             this.connection = connection;
-
             console.info('RMQModule connected');
         });
 

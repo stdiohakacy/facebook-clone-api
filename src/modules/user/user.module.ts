@@ -13,7 +13,6 @@ import { StorageModule } from '../storages/storage.module';
         StorageModule,
     ],
     providers: [UserService],
-    controllers: [],
     exports: [UserService],
 })
 export class UserModule {}

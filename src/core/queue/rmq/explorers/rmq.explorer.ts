@@ -4,10 +4,10 @@ import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
 import { MetadataScanner } from '@nestjs/core/metadata-scanner';
 
 import {
-    IRMQHandler,
     RMQ_PROVIDER_OPTIONS,
     RMQ_ROUTES_OPTIONS,
 } from '../constants/rmq.constants';
+import { IRMQHandler } from '../interfaces/rmq.interface';
 
 @Injectable()
 export class RmqExplorer {

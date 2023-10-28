@@ -1,4 +1,4 @@
-import { DynamicModule, Module, Provider } from '@nestjs/common';
+import { DynamicModule, Global, Module, Provider } from '@nestjs/common';
 import { RedisService } from './services/redis.service';
 import { ConfigService } from '@nestjs/config';
 import IORedis, { Redis } from 'ioredis';
@@ -7,13 +7,12 @@ import {
     REDIS_SUBSCRIBER_CLIENT,
 } from './constants/redis.constant';
 
-@Module({
-    providers: [RedisService],
-    exports: [RedisService],
-})
+@Global()
+@Module({})
 export class RedisCoreModule {
     static forRoot(): DynamicModule {
         const providers: Provider[] = [
+            RedisService,
             {
                 useFactory: (configService: ConfigService): Redis => {
                     const host = configService.get<string>('cache.redis.host');
@@ -53,6 +52,7 @@ export class RedisCoreModule {
         return {
             module: RedisCoreModule,
             providers,
+            exports: providers,
         };
     }
 }

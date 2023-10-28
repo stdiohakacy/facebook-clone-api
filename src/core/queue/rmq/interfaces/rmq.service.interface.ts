@@ -1,4 +1,4 @@
-import { IRMQHandler } from '../constants/rmq.constants';
+import { IRMQHandler } from './rmq.interface';
 
 export interface IRMQService {
     send<T>(routingKey: string, message: T): Promise<void>;

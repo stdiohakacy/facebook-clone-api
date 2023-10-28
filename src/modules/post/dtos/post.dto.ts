@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
-import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
-import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
+import { Exclude, Type } from 'class-transformer';
+import { IsNotEmpty, IsString } from 'class-validator';
 import { BaseDTO } from '../../../core/base/dto/base.dto';
 
 export class PostDTO extends BaseDTO {
@@ -17,15 +17,7 @@ export class PostDTO extends BaseDTO {
     @Type(() => String)
     content: string;
 
-    @ApiProperty({
-        name: 'userId',
-        description: 'User id of post',
-        example: faker.string.uuid(),
-        required: true,
-        nullable: false,
-    })
-    @IsUUID()
-    @IsNotEmpty()
-    @Type(() => String)
+    @ApiHideProperty()
+    @Exclude()
     userId: string;
 }

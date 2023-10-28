@@ -76,12 +76,9 @@ export class PostAuthController {
     @UserProtected()
     @AuthJwtAccessProtected()
     @Post('/')
-    async create(
-        @GetUser() user: UserEntity,
-        @Body() dto: PostCreateDTO
-    ): Promise<IResponse> {
+    async create(@GetUser() user: UserEntity, @Body() dto: PostCreateDTO) {
         dto.userId = user.id;
-        return await this.postService.create(dto);
+        await this.postService.create(dto);
     }
 
     @PostAuthGetDoc()

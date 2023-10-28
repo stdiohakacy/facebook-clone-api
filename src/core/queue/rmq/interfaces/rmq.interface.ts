@@ -31,3 +31,17 @@ export interface IRouteOptions {
     routingKey: string;
     queue: string;
 }
+
+export interface IRMQHandler {
+    meta: IRouteOptions;
+    discoveredMethod: {
+        handler: any;
+        methodName: string;
+        parentClass: any;
+    };
+}
+
+export interface IRMQMessage {
+    eventKey: string;
+    payload: Record<string, any>;
+}
