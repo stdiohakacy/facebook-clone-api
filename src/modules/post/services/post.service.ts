@@ -53,7 +53,15 @@ export class PostService {
     }
 
     async getById(id: string) {
+        const key = `post-${id}`;
+        const cachedPost = await this.redisService.get(key);
+
+        if (cachedPost) {
+            return instanceToPlain({ data: cachedPost });
+        }
+
         const post = await this.postRepo.findOne({ where: { id } });
+
         if (!post) {
             throw new NotFoundException({
                 statusCode: ENUM_POST_STATUS_CODE_ERROR.POST_NOT_FOUND_ERROR,
@@ -61,10 +69,8 @@ export class PostService {
             });
         }
 
-        this.rmqService.send(
-            RMQ_ENUM_EXCHANGE_ROUTING_KEY.REDIS_SYNC_POSTGRES,
-            { post }
-        );
+        this.redisService.set(key, post, 24 * 60 * 60);
+
         return instanceToPlain({ data: post });
     }
 
@@ -79,12 +85,15 @@ export class PostService {
             switch (eventKey) {
                 case ENUM_POST_EVENT_TYPE.POST_CREATED:
                     const post = this.postRepo.create();
+
                     post.content = payload.content;
                     post.userId = payload.userId;
+
                     const postCreated = await this.postRepo.save(post);
                     this.redisService.set(
                         `post-${postCreated.id}`,
-                        postCreated
+                        postCreated,
+                        24 * 60 * 60
                     );
                     break;
                 default:
