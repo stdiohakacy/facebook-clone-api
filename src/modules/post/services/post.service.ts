@@ -9,8 +9,6 @@ import { PostUpdateDTO } from '../dtos/post.update.dto';
 import { ENUM_POST_STATUS_CODE_ERROR } from '../constants/post.status-code.constant';
 import { PaginationOmitListDTO } from 'src/core/pagination/dtos/pagination.list.dto';
 import { PaginationService } from 'src/core/pagination/services/pagination.service';
-import { RedisService } from 'src/core/cache/redis/services/redis.service';
-import { RmqService } from 'src/core/queue/rmq/services/rmq.service';
 
 @Injectable()
 export class PostService {
@@ -18,8 +16,7 @@ export class PostService {
         @InjectRepository(PostEntity)
         private readonly postRepo: Repository<PostEntity>,
         private readonly userService: UserService,
-        private readonly paginationService: PaginationService,
-        private readonly rmqService: RmqService
+        private readonly paginationService: PaginationService
     ) {}
 
     async findPaging(userId: string, pagination: PaginationOmitListDTO) {
