@@ -1,5 +1,5 @@
 export enum ENUM_FRIENDSHIP_STATUS {
-    PENDING = 'PENDING',
-    ACCEPTED = 'ACCEPTED',
-    REJECTED = 'REJECTED',
+    PENDING = 'pending',
+    ACCEPTED = 'accepted',
+    REJECTED = 'rejected',
 }

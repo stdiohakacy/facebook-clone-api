@@ -5,7 +5,9 @@ import {
     DocAuth,
     DocRequest,
     DocResponse,
+    DocResponsePaging,
 } from 'src/core/doc/decorators/doc.decorator';
+import { FriendshipListSerialization } from '../serializations/friendship.list.serialization';
 
 export function FriendshipAuthRequestDoc(): MethodDecorator {
     return applyDecorators(
@@ -31,5 +33,15 @@ export function FriendshipAuthRejectRequestDoc(): MethodDecorator {
         DocAuth({ jwtAccessToken: true }),
         DocRequest({ bodyType: ENUM_DOC_REQUEST_BODY_TYPE.JSON }),
         DocResponse('friendship.rejectRequest')
+    );
+}
+
+export function FriendshipAuthListDoc(): MethodDecorator {
+    return applyDecorators(
+        Doc({ operation: 'module.auth.friendship' }),
+        DocAuth({ jwtAccessToken: true }),
+        DocResponsePaging<FriendshipListSerialization>('friendship.list', {
+            serialization: FriendshipListSerialization,
+        })
     );
 }

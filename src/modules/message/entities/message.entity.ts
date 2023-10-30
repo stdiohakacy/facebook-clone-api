@@ -3,6 +3,7 @@ import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { UseDTO } from '../../../core/base/decorator/use-dto.decorator';
 import { MessageDTO } from '../dto/message.dto';
 import { UserEntity } from '../../../modules/user/entities/user.entity';
+import { FriendshipEntity } from '../../../modules/friendship/entities/friendship.entity';
 
 export interface IMessageEntity extends IBaseEntity<MessageDTO> {
     senderId: string;
@@ -22,6 +23,9 @@ export class MessageEntity
     @Column({ name: 'receiverId', type: 'uuid' })
     receiverId: string;
 
+    @Column({ name: 'friendshipId', type: 'uuid' })
+    friendshipId?: string;
+
     @Column({ name: 'content' })
     content: string;
 
@@ -29,7 +33,15 @@ export class MessageEntity
     @JoinColumn({ name: 'senderId' })
     sender?: UserEntity;
 
+    @ManyToOne(() => FriendshipEntity, (friendship) => friendship.messages)
+    @JoinColumn({ name: 'friendshipId' })
+    friendship?: FriendshipEntity;
+
     @ManyToOne(() => UserEntity, (receiver) => receiver.t_messages)
     @JoinColumn({ name: 'receiverId' })
     receiver?: UserEntity;
+
+    // @ManyToOne(() => UserEntity, (toUser) => toUser.t_friendships)
+    // @JoinColumn({ name: 'toUserId' })
+    // toUser?: UserEntity;
 }

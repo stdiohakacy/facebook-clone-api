@@ -6,16 +6,12 @@ import { useContainer } from 'class-validator';
 import swaggerInit from './swagger';
 import { initializeTransactionalContext } from 'typeorm-transactional';
 import { WebsocketAdapter } from './modules/socket/socket.adapter';
-import passport from 'passport';
 
 async function bootstrap() {
     initializeTransactionalContext();
     const app: NestApplication = await NestFactory.create(AppModule);
     const adapter = new WebsocketAdapter(app);
     app.useWebSocketAdapter(adapter);
-
-    app.use(passport.initialize());
-    app.use(passport.session());
 
     const configService = app.get(ConfigService);
     const databaseUri: string = configService.get<string>('database.host');

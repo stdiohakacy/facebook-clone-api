@@ -6,7 +6,7 @@ import { ErrorModule } from 'src/core/error/error.module';
 import { ResponseModule } from 'src/core/response/response.module';
 import { RequestModule } from 'src/core/request/request.module';
 import { AuthCoreModule } from 'src/core/auth/auth.core.module';
-import { MessageModule } from 'src/core/message/message.module';
+import { MessageCoreModule } from 'src/core/message/message.core.module';
 import { PaginationModule } from 'src/core/pagination/pagination.module';
 import Joi from 'joi';
 import { ENUM_MESSAGE_LANGUAGE } from './message/constants/message.enum.constant';
@@ -168,7 +168,7 @@ import { SocketCoreModule } from 'src/modules/socket/socket.module';
             },
         }),
         BullCoreModule,
-        MessageModule,
+        MessageCoreModule,
         HelperModule,
         PaginationModule,
         ErrorModule,

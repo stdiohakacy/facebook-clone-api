@@ -33,4 +33,4 @@ import { MessageMiddlewareModule } from 'src/core/message/middleware/message.mid
     ],
     controllers: [],
 })
-export class MessageModule {}
+export class MessageCoreModule {}

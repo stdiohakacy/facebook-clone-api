@@ -1,9 +1,10 @@
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { BaseEntity, IBaseEntity } from '../../../core/base/entity/base.entity';
 import { UseDTO } from '../../../core/base/decorator/use-dto.decorator';
 import { FriendshipDTO } from '../dtos/friendship.dto';
 import { ENUM_FRIENDSHIP_STATUS } from '../constants/friendship.enum.constant';
 import { UserEntity } from '../../../modules/user/entities/user.entity';
+import { MessageEntity } from '../../../modules/message/entities/message.entity';
 
 export interface IFriendshipEntity extends IBaseEntity<FriendshipDTO> {
     fromUserId: string;
@@ -33,6 +34,9 @@ export class FriendshipEntity
     @ManyToOne(() => UserEntity, (toUser) => toUser.t_friendships)
     @JoinColumn({ name: 'toUserId' })
     toUser?: UserEntity;
+
+    @OneToMany(() => MessageEntity, (messages) => messages.friendship)
+    messages: FriendshipEntity[];
 
     acceptRequest() {
         this.friendshipStatus = ENUM_FRIENDSHIP_STATUS.ACCEPTED;

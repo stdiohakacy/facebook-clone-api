@@ -3,6 +3,7 @@
     "acceptRequest": "Accept request friend succeed!",
     "rejectRequest": "Reject request friend succeed!",
     "revokeRequest": "Revoke request friend succeed!",
+    "list": "Get list friendship succeed!",
     "error": {
         "notFound": "Friendship not found!"
     }

@@ -1,7 +1,10 @@
-import { Body, Controller, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthJwtAccessProtected } from 'src/core/auth/decorators/auth.jwt.decorator';
-import { Response } from 'src/core/response/decorators/response.decorator';
+import {
+    Response,
+    ResponsePaging,
+} from 'src/core/response/decorators/response.decorator';
 import { IResponse } from 'src/core/response/interfaces/response.interface';
 import {
     GetUser,
@@ -12,14 +15,51 @@ import { FriendshipService } from '../services/friendship.service';
 import { FriendshipRequestDTO } from '../dtos/friendship.request.dto';
 import {
     FriendshipAuthAcceptRequestDoc,
+    FriendshipAuthListDoc,
     FriendshipAuthRejectRequestDoc,
     FriendshipAuthRequestDoc,
 } from '../docs/friendship.auth.doc';
+import { PaginationListDTO } from 'src/core/pagination/dtos/pagination.list.dto';
+import { PaginationQuery } from 'src/core/pagination/decorators/pagination.decorator';
+import {
+    FRIENDSHIP_DEFAULT_AVAILABLE_ORDER_BY,
+    FRIENDSHIP_DEFAULT_AVAILABLE_SEARCH,
+    FRIENDSHIP_DEFAULT_ORDER_BY,
+    FRIENDSHIP_DEFAULT_ORDER_DIRECTION,
+    FRIENDSHIP_DEFAULT_PER_PAGE,
+} from '../constants/friendship.list.constant';
+import { FriendshipListSerialization } from '../serializations/friendship.list.serialization';
 
 @ApiTags('modules.auth.friendship')
 @Controller({ version: '1', path: '/friendship' })
 export class FriendshipAuthController {
     constructor(private readonly friendshipService: FriendshipService) {}
+
+    @FriendshipAuthListDoc()
+    @ResponsePaging('friendship.list', {
+        serialization: FriendshipListSerialization,
+    })
+    @UserProtected()
+    @AuthJwtAccessProtected()
+    @Get('/list')
+    async list(
+        @GetUser() user: UserEntity,
+        @PaginationQuery(
+            FRIENDSHIP_DEFAULT_PER_PAGE,
+            FRIENDSHIP_DEFAULT_ORDER_BY,
+            FRIENDSHIP_DEFAULT_ORDER_DIRECTION,
+            FRIENDSHIP_DEFAULT_AVAILABLE_SEARCH,
+            FRIENDSHIP_DEFAULT_AVAILABLE_ORDER_BY
+        )
+        { _search, _limit, _offset, _order }: PaginationListDTO
+    ) {
+        return await this.friendshipService.findPaging(user.id, {
+            _search,
+            _limit,
+            _offset,
+            _order,
+        });
+    }
 
     @FriendshipAuthRequestDoc()
     @Response('friendship.request')
