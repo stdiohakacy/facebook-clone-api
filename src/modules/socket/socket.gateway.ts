@@ -4,7 +4,8 @@ import {
     OnGatewayConnection,
     OnGatewayDisconnect,
 } from '@nestjs/websockets';
-import { Server, Socket } from 'socket.io';
+import { Server } from 'socket.io';
+import { SocketAuthenticate } from './socket.authenticated';
 
 @WebSocketGateway({
     cors: {
@@ -20,12 +21,11 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @WebSocketServer()
     server: Server;
 
-    handleConnection(socket: Socket) {
-        console.log('handleConnection');
-        socket.emit('connected', {});
+    handleConnection(socket: SocketAuthenticate) {
+        console.log('handleConnection', socket.user);
     }
 
-    handleDisconnect(client: Socket) {
+    handleDisconnect(client: SocketAuthenticate) {
         console.log(`handleDisconnect ${client.id}`);
     }
 }

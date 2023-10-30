@@ -5,10 +5,18 @@ import { ConfigService } from '@nestjs/config';
 import { useContainer } from 'class-validator';
 import swaggerInit from './swagger';
 import { initializeTransactionalContext } from 'typeorm-transactional';
+import { WebsocketAdapter } from './modules/socket/socket.adapter';
+import passport from 'passport';
 
 async function bootstrap() {
     initializeTransactionalContext();
     const app: NestApplication = await NestFactory.create(AppModule);
+    const adapter = new WebsocketAdapter(app);
+    app.useWebSocketAdapter(adapter);
+
+    app.use(passport.initialize());
+    app.use(passport.session());
+
     const configService = app.get(ConfigService);
     const databaseUri: string = configService.get<string>('database.host');
     const env: string = configService.get<string>('app.env');
@@ -19,10 +27,8 @@ async function bootstrap() {
         'app.versioning.prefix'
     );
     const version: string = configService.get<string>('app.versioning.version');
-
     const redisHost: string = configService.get<string>('cache.redis.host');
     const redisPort: number = configService.get<number>('cache.redis.portUI');
-
     const rmqHost: string = configService.get<string>('queue.rmq.host');
     const rmqPort: number = configService.get<number>('queue.rmq.portUI');
 

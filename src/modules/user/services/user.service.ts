@@ -40,7 +40,7 @@ export class UserService {
     private readonly uploadPath: string;
     constructor(
         @InjectRepository(UserEntity)
-        private userRepo: Repository<UserEntity>,
+        private readonly userRepo: Repository<UserEntity>,
         private readonly authService: AuthService,
         private readonly helperDateService: HelperDateService,
         private readonly emailProviderFactory: EmailProviderFactory,
