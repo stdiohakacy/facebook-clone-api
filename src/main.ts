@@ -4,8 +4,10 @@ import { AppModule } from 'src/app/app.module';
 import { ConfigService } from '@nestjs/config';
 import { useContainer } from 'class-validator';
 import swaggerInit from './swagger';
+import { initializeTransactionalContext } from 'typeorm-transactional';
 
 async function bootstrap() {
+    initializeTransactionalContext();
     const app: NestApplication = await NestFactory.create(AppModule);
     const configService = app.get(ConfigService);
     const databaseUri: string = configService.get<string>('database.host');

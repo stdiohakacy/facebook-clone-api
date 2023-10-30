@@ -52,7 +52,6 @@ export class RmqService implements OnModuleInit, IRMQService {
 
         this.server.on(CONNECT_EVENT, (connection: Connection) => {
             this.connection = connection;
-            console.info('RMQModule connected');
         });
 
         this.server.addListener(ERROR_EVENT, (err: unknown) => {
@@ -75,8 +74,6 @@ export class RmqService implements OnModuleInit, IRMQService {
         for (const handler of handlers) {
             await this.createQueue(handler);
         }
-
-        console.info('RMQModule dependencies initialized');
     }
 
     public async send<T>(routingKey: string, message: T) {

@@ -183,7 +183,7 @@ export class AwsS3Service implements IAwsS3Service {
         options?: IAwsS3PutItemOptions
     ): Promise<AwsS3Serialization> {
         let path: string = options?.path;
-        const acl: string = options?.acl ? options.acl : 'public-read';
+        // const acl: string = options?.acl ? options.acl : 'public-read';
 
         if (path)
             path = path.startsWith('/') ? path.replace('/', '') : `${path}`;
@@ -196,7 +196,7 @@ export class AwsS3Service implements IAwsS3Service {
             Bucket: this.bucket,
             Key: key,
             Body: content,
-            ACL: acl,
+            // ACL: acl,
         });
 
         try {
@@ -304,7 +304,7 @@ export class AwsS3Service implements IAwsS3Service {
         options?: IAwsS3PutItemOptions
     ): Promise<AwsS3MultipartSerialization> {
         let path: string = options?.path;
-        const acl: string = options?.acl ? options.acl : 'public-read';
+        // const acl: string = options?.acl ? options.acl : 'public-read';
 
         if (path)
             path = path.startsWith('/') ? path.replace('/', '') : `${path}`;
@@ -318,7 +318,7 @@ export class AwsS3Service implements IAwsS3Service {
             new CreateMultipartUploadCommand({
                 Bucket: this.bucket,
                 Key: key,
-                ACL: acl,
+                // ACL: acl,
             });
 
         try {

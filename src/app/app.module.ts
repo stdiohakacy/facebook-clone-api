@@ -9,10 +9,8 @@ import { CommonModule } from 'src/core/common.module';
     providers: [],
     imports: [
         CommonModule,
-
         // Jobs
         JobsModule.forRoot(),
-
         // Routes
         RouterModule.forRoot(),
     ],

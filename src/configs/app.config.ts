@@ -25,5 +25,6 @@ export default registerAs(
         },
 
         jobEnable: process.env.JOB_ENABLE === 'true' ?? false,
+        cookieSecret: process.env.APP_COOKIE_SECRET || '',
     })
 );

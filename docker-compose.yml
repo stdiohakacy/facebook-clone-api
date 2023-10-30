@@ -14,7 +14,7 @@ services:
     #     command: server --console-address ":9001" /data
     rabbitmq:
         image: rabbitmq:management
-        container_name: rabbitmq
+        container_name: fb-clone-rabbitmq
         environment:
             - RABBITMQ_DEFAULT_USER=${RMQ_USERNAME}
             - RABBITMQ_DEFAULT_PASS=${RMQ_PASSWORD}
@@ -24,12 +24,14 @@ services:
             - '15672:15672'
     redis:
         image: 'redis:alpine'
+        container_name: fb-clone-redis
         ports:
             - '6379:6379'
         # environment:
         #     - REDIS_PASSWORD=${REDIS_PASSWORD}
     redis-commander:
         image: rediscommander/redis-commander:latest
+        container_name: fb-clone-redis-commander
         restart: always
         environment:
             REDIS_HOSTS: redis
@@ -40,7 +42,7 @@ services:
             - 8081:8081
     postgres:
         image: postgres
-        container_name: postgres
+        container_name: fb-clone-postgres
         restart: always
         environment:
             POSTGRES_PASSWORD: postgres
@@ -53,7 +55,7 @@ services:
         env_file:
             - .env
     pgadmin:
-        container_name: pgadmin
+        container_name: fb-clone-pgadmin
         image: dpage/pgadmin4
         ports:
             - '8080:80'

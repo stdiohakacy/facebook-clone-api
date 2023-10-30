@@ -23,6 +23,7 @@ import { BullCoreModule } from './queue/bull/bull.core.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { RedisCoreModule } from './cache/redis/redis.core.module';
 import { RmqCoreModule } from './queue/rmq/rmq.core.module';
+import { SocketCoreModule } from 'src/modules/socket/socket.module';
 
 @Module({
     controllers: [],
@@ -153,7 +154,6 @@ import { RmqCoreModule } from './queue/rmq/rmq.core.module';
                 abortEarly: true,
             },
         }),
-
         TypeOrmModule.forRootAsync({
             imports: [DatabaseOptionsModule],
             useFactory: (dbOptionService: DatabaseOptionService) => {
@@ -176,6 +176,7 @@ import { RmqCoreModule } from './queue/rmq/rmq.core.module';
         RequestModule,
         ApiKeyModule,
         RmqCoreModule,
+        SocketCoreModule,
         EventEmitterModule.forRoot(),
         DebuggerModule.forRoot(),
         AuthCoreModule.forRoot(),

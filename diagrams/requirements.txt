@@ -13,6 +13,6 @@ R9: Users should be able to follow existing pages and join existing groups. They
 R10: Users should be able to create their own groups and pages. Users can later set privacy or delete the groups or pages they own.
 
 {
-  "username": "Raul61",
-  "password": "eEA5NN@@!123"
+  "username": "Gail.Treutel",
+  "password": "rSH27I@@!123"
 }
