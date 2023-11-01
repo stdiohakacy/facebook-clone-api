@@ -5,11 +5,13 @@ import {
     OnGatewayDisconnect,
     SubscribeMessage,
     MessageBody,
+    ConnectedSocket,
 } from '@nestjs/websockets';
 import { Server } from 'socket.io';
 import { SocketAuthenticate } from './socket.authenticated';
 import { SocketGatewaySessionManager } from './socket.gateway.session-manager';
-import { MESSAGE_ENUM_EVENT_TYPE } from './constants/message.event.enum';
+import { ENUM_SUBSCRIBE_MESSAGE_KEY } from './constants/enum.socket.constant';
+import { MessageService } from '../message/services/message.service';
 
 @WebSocketGateway({
     cors: {
@@ -21,7 +23,8 @@ import { MESSAGE_ENUM_EVENT_TYPE } from './constants/message.event.enum';
 })
 export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
     constructor(
-        private readonly socketSessionManager: SocketGatewaySessionManager
+        private readonly socketSessionManager: SocketGatewaySessionManager,
+        private readonly messageService: MessageService
     ) {}
 
     @WebSocketServer()
@@ -35,10 +38,33 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
         this.socketSessionManager.removeUserSocket(socket.user.id);
     }
 
-    @SubscribeMessage(MESSAGE_ENUM_EVENT_TYPE.MESSAGE_CREATE)
-    handleMessageCreate(@MessageBody() data: any) {
-        console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-        console.log(data);
-        console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+    @SubscribeMessage(ENUM_SUBSCRIBE_MESSAGE_KEY.CONVERSATION_JOIN)
+    onConversationJoin(
+        @MessageBody() conversationKey: string,
+        @ConnectedSocket() socket: SocketAuthenticate
+    ) {
+        console.log(
+            `${socket?.user?.id} joined a Conversation of key: ${conversationKey}`
+        );
+        socket.join(conversationKey);
+        console.log(socket.rooms);
+        // socket.to(`conversationKey`).emit('userJoin');
     }
+
+    // @SubscribeMessage(ENUM_SUBSCRIBE_MESSAGE_KEY.CONVERSATION_JOIN)
+    // async handleMessageCreateEvent(payload: any) {
+    // const { receiverId } = payload;
+    // const receiverSocket =
+    //     this.socketSessionManager.getUserSocket(receiverId);
+    // if (receiverSocket) {
+    //     receiverSocket.emit(
+    //         ENUM_MESSAGE_EVENT_KEY.MESSAGE_CREATED,
+    //         payload
+    //     );
+    // }
+    // await this.messageService.updateStatus(
+    //     payload.id,
+    //     ENUM_MESSAGE_STATUS.PENDING
+    // );
+    // }
 }

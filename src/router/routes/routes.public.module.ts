@@ -8,6 +8,8 @@ import { UserPublicController } from 'src/modules/user/controllers/user.public.c
 import { UserModule } from 'src/modules/user/user.module';
 import { TestPublicController } from 'src/modules/test/controllers/test.public.controller';
 import { TestModule } from 'src/modules/test/test.module';
+import { MessageModule } from 'src/modules/message/message.module';
+import { MessageAuthController } from 'src/modules/message/controllers/message.auth.controller';
 
 @Module({
     imports: [
@@ -16,12 +18,14 @@ import { TestModule } from 'src/modules/test/test.module';
         TerminusModule,
         HealthModule,
         UserModule,
+        MessageModule,
         TestModule,
     ],
     controllers: [
         HealthPublicController,
         MessagePublicController,
         UserPublicController,
+        MessageAuthController,
         TestPublicController,
     ],
     providers: [],

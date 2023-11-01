@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class Initial1698226291079 implements MigrationInterface {
-    name = 'Initial1698226291079';
+export class Initial1698852453850 implements MigrationInterface {
+    name = 'Initial1698852453850';
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(
@@ -17,10 +17,10 @@ export class Initial1698226291079 implements MigrationInterface {
             `CREATE TABLE "group_memberships" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP DEFAULT now(), "deletedAt" TIMESTAMP, "createdBy" uuid, "updatedBy" uuid, "deletedBy" uuid, "userId" uuid NOT NULL, "groupId" uuid NOT NULL, CONSTRAINT "PK_4a04ebe9f25ad41f45b2c0ca4b5" PRIMARY KEY ("id"))`
         );
         await queryRunner.query(
-            `CREATE TABLE "messages" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP DEFAULT now(), "deletedAt" TIMESTAMP, "createdBy" uuid, "updatedBy" uuid, "deletedBy" uuid, "senderId" uuid NOT NULL, "receiverId" uuid NOT NULL, "content" character varying NOT NULL, CONSTRAINT "PK_18325f38ae6de43878487eff986" PRIMARY KEY ("id"))`
+            `CREATE TABLE "messages" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP DEFAULT now(), "deletedAt" TIMESTAMP, "createdBy" uuid, "updatedBy" uuid, "deletedBy" uuid, "senderId" uuid NOT NULL, "receiverId" uuid NOT NULL, "friendshipId" uuid NOT NULL, "content" character varying NOT NULL, "messageStatus" character varying NOT NULL, CONSTRAINT "PK_18325f38ae6de43878487eff986" PRIMARY KEY ("id"))`
         );
         await queryRunner.query(
-            `CREATE TABLE "notifications" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP DEFAULT now(), "deletedAt" TIMESTAMP, "createdBy" uuid, "updatedBy" uuid, "deletedBy" uuid, "content" character varying NOT NULL, "userId" uuid NOT NULL, CONSTRAINT "PK_6a72c3c0f683f6462415e653c3a" PRIMARY KEY ("id"))`
+            `CREATE TABLE "notifications" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP DEFAULT now(), "deletedAt" TIMESTAMP, "createdBy" uuid, "updatedBy" uuid, "deletedBy" uuid, "notificationStatus" character varying NOT NULL, "content" character varying NOT NULL, "fromUserId" uuid NOT NULL, "toUserId" uuid NOT NULL, CONSTRAINT "PK_6a72c3c0f683f6462415e653c3a" PRIMARY KEY ("id"))`
         );
         await queryRunner.query(
             `CREATE TABLE "pages" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP DEFAULT now(), "deletedAt" TIMESTAMP, "createdBy" uuid, "updatedBy" uuid, "deletedBy" uuid, "name" character varying NOT NULL, "description" character varying NOT NULL, CONSTRAINT "UQ_fd04e631bf857b757e33711e5be" UNIQUE ("name"), CONSTRAINT "PK_8f21ed625aa34c8391d636b7d3b" PRIMARY KEY ("id"))`
@@ -59,10 +59,16 @@ export class Initial1698226291079 implements MigrationInterface {
             `ALTER TABLE "messages" ADD CONSTRAINT "FK_2db9cf2b3ca111742793f6c37ce" FOREIGN KEY ("senderId") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
         );
         await queryRunner.query(
+            `ALTER TABLE "messages" ADD CONSTRAINT "FK_90a3b11cc1115d86f6623e424e6" FOREIGN KEY ("friendshipId") REFERENCES "friendships"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
+        );
+        await queryRunner.query(
             `ALTER TABLE "messages" ADD CONSTRAINT "FK_acf951a58e3b9611dd96ce89042" FOREIGN KEY ("receiverId") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
         );
         await queryRunner.query(
-            `ALTER TABLE "notifications" ADD CONSTRAINT "FK_692a909ee0fa9383e7859f9b406" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
+            `ALTER TABLE "notifications" ADD CONSTRAINT "FK_3a26cceed2f10be1c5e15f7ef6a" FOREIGN KEY ("fromUserId") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
+        );
+        await queryRunner.query(
+            `ALTER TABLE "notifications" ADD CONSTRAINT "FK_f1781c52eb2836d840f1c613f09" FOREIGN KEY ("toUserId") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
         );
         await queryRunner.query(
             `ALTER TABLE "page_follows" ADD CONSTRAINT "FK_a1bb3e598fdc69dd7478c2813de" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
@@ -92,10 +98,16 @@ export class Initial1698226291079 implements MigrationInterface {
             `ALTER TABLE "page_follows" DROP CONSTRAINT "FK_a1bb3e598fdc69dd7478c2813de"`
         );
         await queryRunner.query(
-            `ALTER TABLE "notifications" DROP CONSTRAINT "FK_692a909ee0fa9383e7859f9b406"`
+            `ALTER TABLE "notifications" DROP CONSTRAINT "FK_f1781c52eb2836d840f1c613f09"`
+        );
+        await queryRunner.query(
+            `ALTER TABLE "notifications" DROP CONSTRAINT "FK_3a26cceed2f10be1c5e15f7ef6a"`
         );
         await queryRunner.query(
             `ALTER TABLE "messages" DROP CONSTRAINT "FK_acf951a58e3b9611dd96ce89042"`
+        );
+        await queryRunner.query(
+            `ALTER TABLE "messages" DROP CONSTRAINT "FK_90a3b11cc1115d86f6623e424e6"`
         );
         await queryRunner.query(
             `ALTER TABLE "messages" DROP CONSTRAINT "FK_2db9cf2b3ca111742793f6c37ce"`

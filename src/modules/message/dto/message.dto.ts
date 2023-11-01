@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
 import { BaseDTO } from '../../../core/base/dto/base.dto';
 
 export class MessageDTO extends BaseDTO {
@@ -40,4 +40,16 @@ export class MessageDTO extends BaseDTO {
     @IsNotEmpty()
     @Type(() => String)
     content: string;
+
+    @ApiProperty({
+        name: 'friendshipId',
+        description: 'Friendship id of message',
+        example: faker.string.uuid(),
+        required: false,
+        nullable: true,
+    })
+    @IsUUID()
+    @IsOptional()
+    @Type(() => String)
+    friendshipId?: string;
 }

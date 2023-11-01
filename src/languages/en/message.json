@@ -1,3 +1,5 @@
 {
-    "languages": "message enum languages"
+    "languages": "message enum languages",
+    "list": "Get list message suucceed!",
+    "create": "Message create succeeded!"
 }

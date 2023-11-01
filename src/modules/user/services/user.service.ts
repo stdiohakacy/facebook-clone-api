@@ -53,6 +53,7 @@ export class UserService {
 
     async getById(id: string) {
         const user = await this.userRepo.findOne({ where: { id } });
+
         if (!user) {
             throw new NotFoundException({
                 statusCode: ENUM_USER_STATUS_CODE_ERROR.USER_NOT_FOUND_ERROR,

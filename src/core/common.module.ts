@@ -24,6 +24,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { RedisCoreModule } from './cache/redis/redis.core.module';
 import { RmqCoreModule } from './queue/rmq/rmq.core.module';
 import { SocketCoreModule } from 'src/modules/socket/socket.module';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
     controllers: [],
@@ -167,6 +168,12 @@ import { SocketCoreModule } from 'src/modules/socket/socket.module';
                 return addTransactionalDataSource(new DataSource(options));
             },
         }),
+        ThrottlerModule.forRoot([
+            {
+                ttl: 10,
+                limit: 10,
+            },
+        ]),
         BullCoreModule,
         MessageCoreModule,
         HelperModule,

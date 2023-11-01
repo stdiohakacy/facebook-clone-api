@@ -23,13 +23,13 @@ export class WebsocketAdapter extends IoAdapter {
             const token = socket.handshake.query.token as string;
 
             if (!token) {
-                throw new WsException('Forbidden! No jwt provided!');
+                return next(new WsException('Forbidden! No jwt provided!'));
             }
 
             const payload = await authService.payloadAccessToken(token);
 
             if (!payload) {
-                throw new ForbiddenException('Jwt invalid!');
+                return next(new ForbiddenException('Jwt invalid!'));
             }
 
             const user = await userService.getById(payload?.data?.id);
