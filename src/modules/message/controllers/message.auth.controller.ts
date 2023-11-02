@@ -63,15 +63,7 @@ export class MessageAuthController {
     @UserProtected()
     @AuthJwtAccessProtected()
     @Post('/')
-    async create(
-        @GetUser() user: UserEntity,
-        @Body() dto: MessageCreateDTO
-        // @AuthUser() user: User,
-        // @UploadedFiles() { attachments }: { attachments: Attachment[] },
-        // @Param('id', ParseIntPipe) id: number,
-        // @Body()
-        // { content }: CreateMessageDto
-    ) {
+    async create(@GetUser() user: UserEntity, @Body() dto: MessageCreateDTO) {
         dto.createdBy = user.id;
         return await this.messageService.create(dto);
     }

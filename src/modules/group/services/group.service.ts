@@ -8,7 +8,6 @@ import { ENUM_GROUP_ERROR } from '../constants/group.status-code.constant';
 import { GroupUpdateDTO } from '../dtos/group.update.dto';
 import { GroupMembershipAuthJoinDTO } from '../dtos/group-membership.join.dto';
 import { GroupMembershipEntity } from '../entities/group-membership.entity';
-import { UserService } from 'src/modules/user/services/user.service';
 import { GroupMembershipAddMemberDTO } from '../dtos/group-membership.add-member.dto';
 import { GroupMembershipRemoveMemberDTO } from '../dtos/group-membership.remove-member.dto';
 
@@ -18,8 +17,7 @@ export class GroupService {
         @InjectRepository(GroupEntity)
         private readonly groupRepo: Repository<GroupEntity>,
         @InjectRepository(GroupMembershipEntity)
-        private readonly groupMembershipRepo: Repository<GroupMembershipEntity>,
-        private readonly userService: UserService
+        private readonly groupMembershipRepo: Repository<GroupMembershipEntity>
     ) {}
 
     async create(dto: GroupCreateDTO) {
@@ -44,6 +42,26 @@ export class GroupService {
         }
 
         return instanceToPlain({ data: group });
+    }
+
+    async getOnlineGroupUsers(id: string) {
+        const group = await this.groupRepo
+            .createQueryBuilder('group')
+            .leftJoinAndSelect('group.groupMemberships', 'groupMemberships')
+            .leftJoinAndSelect('groupMemberships.user', 'user')
+            .where('group.id = :id', { id })
+            .getOne();
+
+        if (!group) {
+            throw new NotFoundException({
+                statusCode: ENUM_GROUP_ERROR.GROUP_NOT_FOUND_ERROR,
+                message: 'group.error.notFound',
+            });
+        }
+
+        return group.groupMemberships.map(
+            (groupMembership) => groupMembership.user
+        );
     }
 
     async update(id: string, dto: GroupUpdateDTO) {
