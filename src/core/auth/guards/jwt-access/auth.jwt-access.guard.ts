@@ -13,7 +13,6 @@ export class AuthJwtAccessGuard extends AuthGuard('jwt') {
                 _error: err ? err.message : info.message,
             });
         }
-
         return user;
     }
 }

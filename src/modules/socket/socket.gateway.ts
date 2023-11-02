@@ -12,6 +12,8 @@ import { SocketAuthenticate } from './socket.authenticated';
 import { SocketGatewaySessionManager } from './socket.gateway.session-manager';
 import { ENUM_SUBSCRIBE_MESSAGE_KEY } from './constants/enum.socket.constant';
 import { MessageService } from '../message/services/message.service';
+import { OnEvent } from '@nestjs/event-emitter';
+import { ENUM_MESSAGE_EVENT_KEY } from '../message/constants/message.enum.constant';
 
 @WebSocketGateway({
     cors: {
@@ -51,20 +53,20 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
         // socket.to(`conversationKey`).emit('userJoin');
     }
 
-    // @SubscribeMessage(ENUM_SUBSCRIBE_MESSAGE_KEY.CONVERSATION_JOIN)
-    // async handleMessageCreateEvent(payload: any) {
-    // const { receiverId } = payload;
-    // const receiverSocket =
-    //     this.socketSessionManager.getUserSocket(receiverId);
-    // if (receiverSocket) {
-    //     receiverSocket.emit(
-    //         ENUM_MESSAGE_EVENT_KEY.MESSAGE_CREATED,
-    //         payload
-    //     );
-    // }
-    // await this.messageService.updateStatus(
-    //     payload.id,
-    //     ENUM_MESSAGE_STATUS.PENDING
-    // );
-    // }
+    @OnEvent(ENUM_MESSAGE_EVENT_KEY.MESSAGE_CREATE)
+    handleMessageCreateEvent(payload: any) {
+        const { senderId, receiverId } = payload;
+        const senderSocket = this.socketSessionManager.getUserSocket(senderId);
+        const receiverSocket =
+            this.socketSessionManager.getUserSocket(receiverId);
+        if (senderSocket) {
+            senderSocket.emit(ENUM_MESSAGE_EVENT_KEY.MESSAGE_CREATED, payload);
+        }
+        if (receiverSocket) {
+            receiverSocket.emit(
+                ENUM_MESSAGE_EVENT_KEY.MESSAGE_CREATED,
+                payload
+            );
+        }
+    }
 }

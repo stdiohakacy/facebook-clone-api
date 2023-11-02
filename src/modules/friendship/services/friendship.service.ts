@@ -29,7 +29,7 @@ export class FriendshipService {
         const friendships = await this.friendshipRepo.find({
             skip: _offset,
             take: _limit,
-            where: { fromUserId },
+            where: [{ fromUserId }, { toUserId: fromUserId }],
             order: _order,
         });
 

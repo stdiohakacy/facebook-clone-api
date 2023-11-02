@@ -7,7 +7,10 @@ import { PaginationService } from 'src/core/pagination/services/pagination.servi
 import { MessageCreateDTO } from '../dto/message.create.dto';
 import { EmptyMessageException } from '../exceptions/message.empty.exception';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { ENUM_MESSAGE_STATUS } from '../constants/message.enum.constant';
+import {
+    ENUM_MESSAGE_EVENT_KEY,
+    ENUM_MESSAGE_STATUS,
+} from '../constants/message.enum.constant';
 
 @Injectable()
 export class MessageService {
@@ -55,10 +58,10 @@ export class MessageService {
         } catch (error) {
             console.error(error);
         }
-        // this.eventEmitter.emit(
-        //     ENUM_MESSAGE_EVENT_KEY.MESSAGE_CREATE,
-        //     messageCreated
-        // );
+        this.eventEmitter.emit(
+            ENUM_MESSAGE_EVENT_KEY.MESSAGE_CREATE,
+            messageCreated
+        );
 
         return messageCreated;
     }
