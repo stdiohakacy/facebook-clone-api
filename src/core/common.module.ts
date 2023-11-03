@@ -26,6 +26,7 @@ import { RmqCoreModule } from './queue/rmq/rmq.core.module';
 import { SocketCoreModule } from 'src/modules/socket/socket.module';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { SMSCoreModule } from './sms/sms.core.module';
+import { ScheduleCoreModule } from './schedule/schedule.core.module';
 
 @Module({
     controllers: [],
@@ -186,6 +187,7 @@ import { SMSCoreModule } from './sms/sms.core.module';
         RmqCoreModule,
         SocketCoreModule,
         SMSCoreModule,
+        ScheduleCoreModule,
         EventEmitterModule.forRoot(),
         DebuggerModule.forRoot(),
         AuthCoreModule.forRoot(),

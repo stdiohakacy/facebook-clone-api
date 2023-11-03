@@ -13,6 +13,7 @@ import MailConfig from './mail.config';
 import StorageConfig from './storage.config';
 import CacheConfig from './cache.config';
 import QueueConfig from './queue.config';
+import IntegrationConfig from './integration.config';
 
 export default [
     AppConfig,
@@ -30,4 +31,5 @@ export default [
     StorageConfig,
     CacheConfig,
     QueueConfig,
+    IntegrationConfig,
 ];
