@@ -101,6 +101,7 @@
         "rxjs": "^7.8.1",
         "socket.io": "^4.7.2",
         "swagger-themes": "^1.2.30",
+        "twilio": "^4.14.1",
         "typeorm": "^0.3.17",
         "typeorm-transactional": "^0.4.1",
         "ua-parser-js": "^1.0.36",

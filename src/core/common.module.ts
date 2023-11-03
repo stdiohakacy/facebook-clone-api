@@ -25,6 +25,7 @@ import { RedisCoreModule } from './cache/redis/redis.core.module';
 import { RmqCoreModule } from './queue/rmq/rmq.core.module';
 import { SocketCoreModule } from 'src/modules/socket/socket.module';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { SMSCoreModule } from './sms/sms.core.module';
 
 @Module({
     controllers: [],
@@ -184,6 +185,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
         ApiKeyModule,
         RmqCoreModule,
         SocketCoreModule,
+        SMSCoreModule,
         EventEmitterModule.forRoot(),
         DebuggerModule.forRoot(),
         AuthCoreModule.forRoot(),
