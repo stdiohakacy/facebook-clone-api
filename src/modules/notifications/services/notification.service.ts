@@ -5,7 +5,11 @@ import { Repository } from 'typeorm';
 import { NotificationCreateDTO } from '../dtos/notification.create.dto';
 import { UserService } from 'src/modules/user/services/user.service';
 import { instanceToPlain } from 'class-transformer';
-import { ENUM_NOTIFICATION_STATUS } from '../constants/notification.enum.constant';
+import {
+    ENUM_NOTIFICATION_PROGRESS,
+    ENUM_NOTIFICATION_STATUS,
+    ENUM_NOTIFICATION_TYPE,
+} from '../constants/notification.enum.constant';
 import { ENUM_NOTIFICATION_STATUS_CODE_ERROR } from '../constants/notification.status-code.constant';
 import { PaginationOmitListDTO } from 'src/core/pagination/dtos/pagination.list.dto';
 import { PaginationService } from 'src/core/pagination/services/pagination.service';
@@ -63,5 +67,29 @@ export class NotificationService {
         }
 
         await this.notificationRepo.save(notification.read());
+    }
+
+    async save(
+        title: string,
+        content: string,
+        topic: string,
+        username: string,
+        notificationStatus: ENUM_NOTIFICATION_STATUS,
+        notificationType: ENUM_NOTIFICATION_TYPE,
+        notificationProgress: ENUM_NOTIFICATION_PROGRESS
+    ) {
+        const notificationCreated = await this.notificationRepo.save(
+            this.notificationRepo.create({
+                title,
+                content,
+                topic,
+                username,
+                notificationStatus,
+                notificationType,
+                notificationProgress,
+            })
+        );
+
+        return notificationCreated;
     }
 }

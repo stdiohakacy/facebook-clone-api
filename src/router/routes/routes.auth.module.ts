@@ -13,6 +13,8 @@ import { NotificationModule } from 'src/modules/notifications/notification.modul
 import { NotificationAuthController } from 'src/modules/notifications/controllers/notification.auth.controller';
 import { GroupModule } from 'src/modules/group/group.module';
 import { GroupAuthController } from 'src/modules/group/controllers/group.auth.controller';
+import { FcmAdminModule } from 'src/modules/fcm-admin/fcm.admin.module';
+import { FcmAdminAuthController } from 'src/modules/fcm-admin/controllers/fcm-admin.auth.controller';
 
 @Module({
     imports: [
@@ -24,6 +26,7 @@ import { GroupAuthController } from 'src/modules/group/controllers/group.auth.co
         CommentModule,
         NotificationModule,
         GroupModule,
+        FcmAdminModule,
     ],
     controllers: [
         UserAuthController,
@@ -32,6 +35,7 @@ import { GroupAuthController } from 'src/modules/group/controllers/group.auth.co
         CommentAuthController,
         NotificationAuthController,
         GroupAuthController,
+        FcmAdminAuthController,
     ],
     providers: [],
     exports: [],

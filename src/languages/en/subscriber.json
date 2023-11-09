@@ -1,0 +1,6 @@
+{
+    "error": {
+        "notFound": "Subscriber not found",
+        "alreadyExist": "Subscriber already exists"
+    }
+}
