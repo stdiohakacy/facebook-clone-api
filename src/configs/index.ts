@@ -14,6 +14,7 @@ import StorageConfig from './storage.config';
 import CacheConfig from './cache.config';
 import QueueConfig from './queue.config';
 import IntegrationConfig from './integration.config';
+import NotificationConfig from './notification.config';
 
 export default [
     AppConfig,
@@ -32,4 +33,5 @@ export default [
     CacheConfig,
     QueueConfig,
     IntegrationConfig,
+    NotificationConfig,
 ];

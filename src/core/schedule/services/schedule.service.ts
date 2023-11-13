@@ -3,7 +3,7 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Injectable()
 export class ScheduleService {
-    @Cron(CronExpression.EVERY_SECOND)
+    @Cron(CronExpression.EVERY_10_HOURS)
     scheduleTest() {
         console.log('Schedule test');
     }
