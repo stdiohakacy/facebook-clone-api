@@ -2,5 +2,10 @@
     "create": "Notification created!",
     "read": "Read notification",
     "list": "Get list notification",
-    "error": {}
+    "acceptPush": "Notification accept push",
+    "disablePush": "Notification disable push",
+    "send": "Notification sent",
+    "error": {
+        "notFound": "Notification not found!"
+    }
 }

@@ -10,8 +10,6 @@ import { TestPublicController } from 'src/modules/test/controllers/test.public.c
 import { TestModule } from 'src/modules/test/test.module';
 import { MessageModule } from 'src/modules/message/message.module';
 import { MessageAuthController } from 'src/modules/message/controllers/message.auth.controller';
-import { PushNotificationPublicController } from 'src/modules/push-notification/controllers/push-notification.public.controller';
-import { NotificationCoreModule } from 'src/core/notification/notification.core.module';
 
 @Module({
     imports: [
@@ -22,7 +20,6 @@ import { NotificationCoreModule } from 'src/core/notification/notification.core.
         UserModule,
         MessageModule,
         TestModule,
-        NotificationCoreModule,
     ],
     controllers: [
         HealthPublicController,
@@ -30,7 +27,6 @@ import { NotificationCoreModule } from 'src/core/notification/notification.core.
         UserPublicController,
         MessageAuthController,
         TestPublicController,
-        PushNotificationPublicController,
     ],
     providers: [],
     exports: [],

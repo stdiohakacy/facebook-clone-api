@@ -16,6 +16,7 @@ import { GroupMembershipEntity } from '../../../modules/group/entities/group-mem
 import { MessageEntity } from '../../../modules/message/entities/message.entity';
 import { NotificationEntity } from '../../../modules/notifications/entities/notification.entity';
 import { PageFollowEntity } from '../../../modules/page-follow/entities/page-follow.entity';
+import { NotificationTokenEntity } from '../../../modules/notifications/entities/notification-token.entity';
 
 export interface IUserEntity extends IBaseEntity<UserDTO> {
     username: string;
@@ -112,7 +113,13 @@ export class UserEntity extends BaseEntity<UserDTO> implements IUserEntity {
     t_notifications?: NotificationEntity[];
 
     @OneToMany(() => PageFollowEntity, (pageFollows) => pageFollows.user)
-    pageFollows?: NotificationEntity[];
+    pageFollows?: PageFollowEntity[];
+
+    @OneToMany(
+        () => NotificationTokenEntity,
+        (notificationTokens) => notificationTokens.user
+    )
+    notificationTokens?: NotificationTokenEntity[];
 
     register(payload: any) {
         this.username = payload?.username || '';

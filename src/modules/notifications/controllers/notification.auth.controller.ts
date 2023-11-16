@@ -17,6 +17,7 @@ import {
     NotificationAuthCreateDoc,
     NotificationAuthListDoc,
     NotificationAuthReadDoc,
+    NotificationAuthSendDoc,
 } from '../docs/notification.auth.doc';
 import { NotificationListSerialization } from '../serializations/notification.list.serialization';
 import { PaginationQuery } from 'src/core/pagination/decorators/pagination.decorator';
@@ -28,6 +29,7 @@ import {
     NOTIFICATION_DEFAULT_PER_PAGE,
 } from '../constants/notification.list.constant';
 import { PaginationListDTO } from 'src/core/pagination/dtos/pagination.list.dto';
+import { PushNotificationSendDTO } from 'src/modules/push-notification/dtos/push-notification.dto';
 
 @ApiTags('modules.auth.notification')
 @Controller({ version: '1', path: '/notification' })
@@ -80,5 +82,18 @@ export class NotificationAuthController {
     @Patch('/:id')
     async read(@Param('id') id: string) {
         return await this.notificationService.read(id);
+    }
+
+    @NotificationAuthSendDoc()
+    @Response('notification.send')
+    @UserProtected()
+    @AuthJwtAccessProtected()
+    @Post('/send')
+    async send(
+        @GetUser() userAuth: UserEntity,
+        @Body() dto: PushNotificationSendDTO
+    ) {
+        const { title, body } = dto;
+        return await this.notificationService.send(userAuth, title, body);
     }
 }

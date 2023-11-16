@@ -36,3 +36,12 @@ export function NotificationAuthListDoc(): MethodDecorator {
         })
     );
 }
+
+export function NotificationAuthSendDoc(): MethodDecorator {
+    return applyDecorators(
+        Doc({ operation: 'modules.auth.notification' }),
+        DocAuth({ jwtAccessToken: true }),
+        DocRequest({ bodyType: ENUM_DOC_REQUEST_BODY_TYPE.JSON }),
+        DocResponse('notification.send')
+    );
+}
