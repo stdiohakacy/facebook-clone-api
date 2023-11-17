@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Get,
+    HttpCode,
+    HttpStatus,
+    Param,
+    Patch,
+    Post,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { NotificationService } from '../services/notification.service';
 import {
@@ -14,7 +23,9 @@ import { UserEntity } from 'src/modules/user/entities/user.entity';
 import { IResponse } from 'src/core/response/interfaces/response.interface';
 import { NotificationCreateDTO } from '../dtos/notification.create.dto';
 import {
+    NotificationAuthAcceptPushDoc,
     NotificationAuthCreateDoc,
+    NotificationAuthDisablePushDoc,
     NotificationAuthListDoc,
     NotificationAuthReadDoc,
     NotificationAuthSendDoc,
@@ -30,6 +41,9 @@ import {
 } from '../constants/notification.list.constant';
 import { PaginationListDTO } from 'src/core/pagination/dtos/pagination.list.dto';
 import { PushNotificationSendDTO } from 'src/modules/push-notification/dtos/push-notification.dto';
+import { RequestUserAgent } from 'src/core/request/decorators/request.decorator';
+import { IResult } from 'ua-parser-js';
+import { NotificationTokenAcceptPushDTO } from '../dtos/notification-token.accept-push.dto';
 
 @ApiTags('modules.auth.notification')
 @Controller({ version: '1', path: '/notification' })
@@ -95,5 +109,40 @@ export class NotificationAuthController {
     ) {
         const { title, body } = dto;
         return await this.notificationService.send(userAuth, title, body);
+    }
+
+    @NotificationAuthAcceptPushDoc()
+    @Response('notification.acceptPush')
+    @UserProtected()
+    @AuthJwtAccessProtected()
+    @HttpCode(HttpStatus.OK)
+    @Post('/accept')
+    async acceptPushNotification(
+        @GetUser() userAuth: UserEntity,
+        @RequestUserAgent() userAgent: IResult,
+        @Body() dto: NotificationTokenAcceptPushDTO
+    ) {
+        const { token } = dto;
+        return await this.notificationService.acceptPushNotification(
+            userAuth?.id || '1e8b2712-a9e4-4060-8804-5535bd535db4',
+            userAgent,
+            token
+        );
+    }
+
+    @NotificationAuthDisablePushDoc()
+    @Response('notification.disablePush')
+    @UserProtected()
+    @AuthJwtAccessProtected()
+    @HttpCode(HttpStatus.OK)
+    @Post('/disable')
+    async disablePushNotification(
+        @GetUser() userAuth: UserEntity,
+        @RequestUserAgent() userAgent: IResult
+    ) {
+        return await this.notificationService.disablePushNotification(
+            userAuth?.id || '1e8b2712-a9e4-4060-8804-5535bd535db4',
+            userAgent
+        );
     }
 }

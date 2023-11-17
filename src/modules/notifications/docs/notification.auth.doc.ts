@@ -45,3 +45,21 @@ export function NotificationAuthSendDoc(): MethodDecorator {
         DocResponse('notification.send')
     );
 }
+
+export function NotificationAuthAcceptPushDoc(): MethodDecorator {
+    return applyDecorators(
+        Doc({ operation: 'modules.auth.notification' }),
+        DocAuth({ jwtAccessToken: true }),
+        DocRequest({ bodyType: ENUM_DOC_REQUEST_BODY_TYPE.JSON }),
+        DocResponse('notification.acceptPush')
+    );
+}
+
+export function NotificationAuthDisablePushDoc(): MethodDecorator {
+    return applyDecorators(
+        Doc({ operation: 'modules.auth.notification' }),
+        DocAuth({ jwtAccessToken: true }),
+        DocRequest({ bodyType: ENUM_DOC_REQUEST_BODY_TYPE.JSON }),
+        DocResponse('notification.disablePush')
+    );
+}

@@ -10,8 +10,13 @@ import {
 } from '../constants/notification.enum.constant';
 
 export interface INotificationEntity extends IBaseEntity<NotificationDTO> {
-    notificationStatus: ENUM_NOTIFICATION_STATUS;
+    topic: string;
+    username: string;
+    title: string;
     content: string;
+    notificationType: ENUM_NOTIFICATION_TYPE;
+    notificationStatus: ENUM_NOTIFICATION_STATUS;
+    notificationProgress: ENUM_NOTIFICATION_PROGRESS;
     fromUserId: string;
     toUserId: string;
 }

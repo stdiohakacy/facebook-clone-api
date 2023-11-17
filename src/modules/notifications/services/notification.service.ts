@@ -8,6 +8,7 @@ import { instanceToPlain } from 'class-transformer';
 import {
     ENUM_NOTIFICATION_PROGRESS,
     ENUM_NOTIFICATION_STATUS,
+    ENUM_NOTIFICATION_TOKEN_STATUS,
     ENUM_NOTIFICATION_TYPE,
 } from '../constants/notification.enum.constant';
 import { ENUM_NOTIFICATION_STATUS_CODE_ERROR } from '../constants/notification.status-code.constant';
@@ -17,7 +18,7 @@ import firebase from 'firebase-admin';
 import { ConfigService } from '@nestjs/config';
 import { UserEntity } from 'src/modules/user/entities/user.entity';
 import { NotificationTokenEntity } from '../entities/notification-token.entity';
-import { ENUM_NOTIFICATION_TOKEN_STATUS } from '../constants/notification-token.enum.constant';
+import { IResult } from 'ua-parser-js';
 @Injectable()
 export class NotificationService {
     constructor(
@@ -141,5 +142,34 @@ export class NotificationService {
                 token: notificationToken.token,
             })
             .catch((error: any) => console.error(`Error!!!!!`, error));
+    }
+
+    async acceptPushNotification(
+        userId: string,
+        deviceType: IResult,
+        token: string
+    ) {
+        await this.notificationTokenRepo.update(
+            { userId },
+            { notificationTokenStatus: ENUM_NOTIFICATION_TOKEN_STATUS.INACTIVE }
+        );
+
+        const notificationToken = this.notificationTokenRepo.create({
+            userId,
+            deviceType,
+            token,
+            notificationTokenStatus: ENUM_NOTIFICATION_TOKEN_STATUS.ACTIVE,
+        });
+
+        const notificationTokenCreated =
+            await this.notificationTokenRepo.save(notificationToken);
+        return notificationTokenCreated;
+    }
+
+    async disablePushNotification(userId: string, deviceType: IResult) {
+        await this.notificationTokenRepo.update(
+            { userId, deviceType },
+            { notificationTokenStatus: ENUM_NOTIFICATION_TOKEN_STATUS.INACTIVE }
+        );
     }
 }

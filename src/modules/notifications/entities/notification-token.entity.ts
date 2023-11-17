@@ -2,9 +2,9 @@ import { BaseEntity, IBaseEntity } from '../../../core/base/entity/base.entity';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { UseDTO } from '../../../core/base/decorator/use-dto.decorator';
 import { UserEntity } from '../../../modules/user/entities/user.entity';
-import { ENUM_NOTIFICATION_TOKEN_STATUS } from '../constants/notification-token.enum.constant';
 import { NotificationTokenDTO } from '../dtos/notification-token.dto';
 import { IResult } from 'ua-parser-js';
+import { ENUM_NOTIFICATION_TOKEN_STATUS } from '../constants/notification.enum.constant';
 
 export interface INotificationTokenEntity
     extends IBaseEntity<NotificationTokenDTO> {

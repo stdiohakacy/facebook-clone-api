@@ -15,7 +15,6 @@ import { GroupModule } from 'src/modules/group/group.module';
 import { GroupAuthController } from 'src/modules/group/controllers/group.auth.controller';
 import { FcmAdminModule } from 'src/modules/fcm-admin/fcm.admin.module';
 import { FcmAdminAuthController } from 'src/modules/fcm-admin/controllers/fcm-admin.auth.controller';
-import { NotificationTokenAuthController } from 'src/modules/notifications/controllers/notification-token.auth.controller';
 
 @Module({
     imports: [
@@ -38,7 +37,6 @@ import { NotificationTokenAuthController } from 'src/modules/notifications/contr
         NotificationAuthController,
         GroupAuthController,
         FcmAdminAuthController,
-        NotificationTokenAuthController,
         NotificationAuthController,
     ],
     providers: [],

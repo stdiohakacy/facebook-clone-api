@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsEnum, IsNotEmpty, IsString, IsUUID } from 'class-validator';
 import { BaseDTO } from '../../../core/base/dto/base.dto';
-import { ENUM_NOTIFICATION_TOKEN_STATUS } from '../constants/notification-token.enum.constant';
+import { ENUM_NOTIFICATION_TOKEN_STATUS } from '../constants/notification.enum.constant';
 
 export class NotificationTokenDTO extends BaseDTO {
     @ApiProperty({

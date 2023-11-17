@@ -14,3 +14,8 @@ export enum ENUM_NOTIFICATION_TYPE {
     MULTICAST = 'multicast',
     SINGLE = 'single',
 }
+
+export enum ENUM_NOTIFICATION_TOKEN_STATUS {
+    ACTIVE = 'active',
+    INACTIVE = 'inactive',
+}
