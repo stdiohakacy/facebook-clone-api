@@ -44,13 +44,13 @@ import {
     NOTIFICATION_DEFAULT_PER_PAGE,
 } from '../constants/notification.list.constant';
 import { PaginationListDTO } from 'src/core/pagination/dtos/pagination.list.dto';
-import { PushNotificationSendDTO } from 'src/modules/push-notification/dtos/push-notification.dto';
 import { RequestUserAgent } from 'src/core/request/decorators/request.decorator';
 import { IResult } from 'ua-parser-js';
 import { NotificationTokenAcceptPushDTO } from '../dtos/notification-token.accept-push.dto';
 import { NotificationSubscriptionRequestDTO } from '../dtos/notification.subscription.request.dto';
 import { NotificationMulticastRequestDTO } from '../dtos/notification.multicast.request.dto';
 import { NotificationTopicRequestDTO } from '../dtos/notification.topic.request.dto';
+import { NotificationSingleRequestDTO } from '../dtos/notification.single.request.dto';
 
 @ApiTags('modules.auth.notification')
 @Controller({ version: '1', path: '/notification' })
@@ -173,7 +173,7 @@ export class NotificationAuthController {
     @Post('/send')
     async send(
         @GetUser() userAuth: UserEntity,
-        @Body() dto: PushNotificationSendDTO
+        @Body() dto: NotificationSingleRequestDTO
     ) {
         const { title, body } = dto;
         return await this.notificationService.send(userAuth, title, body);
