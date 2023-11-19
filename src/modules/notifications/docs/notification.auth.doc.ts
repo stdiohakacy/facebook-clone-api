@@ -63,3 +63,39 @@ export function NotificationAuthDisablePushDoc(): MethodDecorator {
         DocResponse('notification.disablePush')
     );
 }
+
+export function NotificationAuthSubscribeDoc(): MethodDecorator {
+    return applyDecorators(
+        Doc({ operation: 'modules.auth.notification' }),
+        DocAuth({ jwtAccessToken: true }),
+        DocRequest({ bodyType: ENUM_DOC_REQUEST_BODY_TYPE.JSON }),
+        DocResponse('notification.subscribe')
+    );
+}
+
+export function NotificationAuthToggleDoc(): MethodDecorator {
+    return applyDecorators(
+        Doc({ operation: 'modules.auth.notification' }),
+        DocAuth({ jwtAccessToken: true }),
+        DocRequest({ bodyType: ENUM_DOC_REQUEST_BODY_TYPE.JSON }),
+        DocResponse('notification.subscribe')
+    );
+}
+
+export function NotificationAuthSendMulticastPushDoc(): MethodDecorator {
+    return applyDecorators(
+        Doc({ operation: 'modules.auth.notification' }),
+        DocAuth({ jwtAccessToken: true }),
+        DocRequest({ bodyType: ENUM_DOC_REQUEST_BODY_TYPE.JSON }),
+        DocResponse('notification.sendMulticastPush')
+    );
+}
+
+export function NotificationAuthSendTopicPushDoc(): MethodDecorator {
+    return applyDecorators(
+        Doc({ operation: 'modules.auth.notification' }),
+        DocAuth({ jwtAccessToken: true }),
+        DocRequest({ bodyType: ENUM_DOC_REQUEST_BODY_TYPE.JSON }),
+        DocResponse('notification.sendTopicPush')
+    );
+}

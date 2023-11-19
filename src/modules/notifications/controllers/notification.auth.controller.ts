@@ -29,6 +29,10 @@ import {
     NotificationAuthListDoc,
     NotificationAuthReadDoc,
     NotificationAuthSendDoc,
+    NotificationAuthSendMulticastPushDoc,
+    NotificationAuthSendTopicPushDoc,
+    NotificationAuthSubscribeDoc,
+    NotificationAuthToggleDoc,
 } from '../docs/notification.auth.doc';
 import { NotificationListSerialization } from '../serializations/notification.list.serialization';
 import { PaginationQuery } from 'src/core/pagination/decorators/pagination.decorator';
@@ -44,6 +48,9 @@ import { PushNotificationSendDTO } from 'src/modules/push-notification/dtos/push
 import { RequestUserAgent } from 'src/core/request/decorators/request.decorator';
 import { IResult } from 'ua-parser-js';
 import { NotificationTokenAcceptPushDTO } from '../dtos/notification-token.accept-push.dto';
+import { NotificationSubscriptionRequestDTO } from '../dtos/notification.subscription.request.dto';
+import { NotificationMulticastRequestDTO } from '../dtos/notification.multicast.request.dto';
+import { NotificationTopicRequestDTO } from '../dtos/notification.topic.request.dto';
 
 @ApiTags('modules.auth.notification')
 @Controller({ version: '1', path: '/notification' })
@@ -98,19 +105,6 @@ export class NotificationAuthController {
         return await this.notificationService.read(id);
     }
 
-    @NotificationAuthSendDoc()
-    @Response('notification.send')
-    @UserProtected()
-    @AuthJwtAccessProtected()
-    @Post('/send')
-    async send(
-        @GetUser() userAuth: UserEntity,
-        @Body() dto: PushNotificationSendDTO
-    ) {
-        const { title, body } = dto;
-        return await this.notificationService.send(userAuth, title, body);
-    }
-
     @NotificationAuthAcceptPushDoc()
     @Response('notification.acceptPush')
     @UserProtected()
@@ -144,5 +138,62 @@ export class NotificationAuthController {
             userAuth?.id || '1e8b2712-a9e4-4060-8804-5535bd535db4',
             userAgent
         );
+    }
+
+    @NotificationAuthSubscribeDoc()
+    @Response('notification.subscribe')
+    // @UserProtected()
+    // @AuthJwtAccessProtected()
+    @HttpCode(HttpStatus.OK)
+    @Post('/subscribe')
+    @HttpCode(200)
+    async clientSubscriptionToTopic(
+        @Body() dto: NotificationSubscriptionRequestDTO
+    ) {
+        return await this.notificationService.clientSubscriptionToTopic(dto);
+    }
+
+    @NotificationAuthToggleDoc()
+    @Response('notification.toggle')
+    @UserProtected()
+    @AuthJwtAccessProtected()
+    @HttpCode(HttpStatus.OK)
+    @Post('/toggle')
+    @HttpCode(200)
+    async toggleSubscriptionToTopic(
+        @Body() dto: NotificationSubscriptionRequestDTO
+    ) {
+        return await this.notificationService.toggleSubscriptionToTopic(dto);
+    }
+
+    @NotificationAuthSendDoc()
+    @Response('notification.send')
+    @UserProtected()
+    @AuthJwtAccessProtected()
+    @Post('/send')
+    async send(
+        @GetUser() userAuth: UserEntity,
+        @Body() dto: PushNotificationSendDTO
+    ) {
+        const { title, body } = dto;
+        return await this.notificationService.send(userAuth, title, body);
+    }
+
+    @NotificationAuthSendMulticastPushDoc()
+    @Response('notification.sendMulticastPush')
+    @UserProtected()
+    @AuthJwtAccessProtected()
+    @Post('/send-multicast-push')
+    async sendMulticastPush(@Body() dto: NotificationMulticastRequestDTO) {
+        return await this.notificationService.sendMulticastPush(dto);
+    }
+
+    @NotificationAuthSendTopicPushDoc()
+    @Response('notification.sendTopicPush')
+    // @UserProtected()
+    // @AuthJwtAccessProtected()
+    @Post('/send-topic-push')
+    async sendTopicPush(@Body() dto: NotificationTopicRequestDTO) {
+        return await this.notificationService.sendPushNotificationToTopic(dto);
     }
 }

@@ -34,9 +34,10 @@ export class UserDTO extends BaseDTO {
 
     @ApiProperty({
         description: 'string password',
-        example: `${faker.string.alphanumeric().toLowerCase()}${faker.string
-            .alphanumeric(5)
-            .toUpperCase()}@@!123`,
+        // example: `${faker.string.alphanumeric().toLowerCase()}${faker.string
+        //     .alphanumeric(5)
+        //     .toUpperCase()}@@!123`,
+        example: 'cdef3456@A!',
         required: true,
     })
     @IsNotEmpty()
