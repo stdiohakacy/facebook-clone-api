@@ -10,6 +10,12 @@ import { TestPublicController } from 'src/modules/test/controllers/test.public.c
 import { TestModule } from 'src/modules/test/test.module';
 import { MessageModule } from 'src/modules/message/message.module';
 import { MessageAuthController } from 'src/modules/message/controllers/message.auth.controller';
+import { OrderModule } from 'src/modules/design-patterns/factory-method/order/order.module';
+import { OrderController } from 'src/modules/design-patterns/factory-method/order/controllers/order.controller';
+import { FurnitureModule } from 'src/modules/design-patterns/abstract-factory/furniture/furniture.module';
+import { FurnitureController } from 'src/modules/design-patterns/abstract-factory/furniture/controllers/furniture.controller';
+import { ProductModule } from 'src/modules/design-patterns/builder/product/product.module';
+import { ProductController } from 'src/modules/design-patterns/builder/product/controllers/product.controller';
 
 @Module({
     imports: [
@@ -19,6 +25,9 @@ import { MessageAuthController } from 'src/modules/message/controllers/message.a
         HealthModule,
         UserModule,
         MessageModule,
+        OrderModule,
+        FurnitureModule,
+        ProductModule,
         TestModule,
     ],
     controllers: [
@@ -27,6 +36,9 @@ import { MessageAuthController } from 'src/modules/message/controllers/message.a
         UserPublicController,
         MessageAuthController,
         TestPublicController,
+        OrderController,
+        FurnitureController,
+        ProductController,
     ],
     providers: [],
     exports: [],
