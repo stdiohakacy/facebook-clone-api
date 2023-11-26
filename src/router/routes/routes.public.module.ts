@@ -16,6 +16,10 @@ import { FurnitureModule } from 'src/modules/design-patterns/abstract-factory/fu
 import { FurnitureController } from 'src/modules/design-patterns/abstract-factory/furniture/controllers/furniture.controller';
 import { ProductModule } from 'src/modules/design-patterns/builder/product/product.module';
 import { ProductController } from 'src/modules/design-patterns/builder/product/controllers/product.controller';
+import { BankModule } from 'src/modules/design-patterns/bridge/01/bank.module';
+import { BankPublicController } from 'src/modules/design-patterns/bridge/01/controllers/bank.public.controller';
+import { DirectoryModule } from 'src/modules/design-patterns/composite-pattern/01/directory.module';
+import { DirectoryPublicController } from 'src/modules/design-patterns/composite-pattern/01/controllers/directory.public.controller';
 
 @Module({
     imports: [
@@ -28,6 +32,8 @@ import { ProductController } from 'src/modules/design-patterns/builder/product/c
         OrderModule,
         FurnitureModule,
         ProductModule,
+        BankModule,
+        DirectoryModule,
         TestModule,
     ],
     controllers: [
@@ -39,6 +45,8 @@ import { ProductController } from 'src/modules/design-patterns/builder/product/c
         OrderController,
         FurnitureController,
         ProductController,
+        BankPublicController,
+        DirectoryPublicController,
     ],
     providers: [],
     exports: [],
