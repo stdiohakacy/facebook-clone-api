@@ -20,6 +20,8 @@ import { BankModule } from 'src/modules/design-patterns/bridge/01/bank.module';
 import { BankPublicController } from 'src/modules/design-patterns/bridge/01/controllers/bank.public.controller';
 import { DirectoryModule } from 'src/modules/design-patterns/composite-pattern/01/directory.module';
 import { DirectoryPublicController } from 'src/modules/design-patterns/composite-pattern/01/controllers/directory.public.controller';
+import { FacadeModule } from 'src/modules/design-patterns/facades/01/facade.module';
+import { FacadePublicController } from 'src/modules/design-patterns/facades/01/controllers/facade.public.controller';
 
 @Module({
     imports: [
@@ -34,6 +36,7 @@ import { DirectoryPublicController } from 'src/modules/design-patterns/composite
         ProductModule,
         BankModule,
         DirectoryModule,
+        FacadeModule,
         TestModule,
     ],
     controllers: [
@@ -47,6 +50,7 @@ import { DirectoryPublicController } from 'src/modules/design-patterns/composite
         ProductController,
         BankPublicController,
         DirectoryPublicController,
+        FacadePublicController,
     ],
     providers: [],
     exports: [],
